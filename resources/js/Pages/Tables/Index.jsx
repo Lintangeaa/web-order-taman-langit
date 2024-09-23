@@ -21,7 +21,7 @@ export default function GetAllTables({ auth, tables }) {
                     <div className="w-full flex justify-end">
                         <Link
                             className="p-2 rounded-full bg-white text-black text-sm "
-                            href="/products/create"
+                            href="/table/create"
                         >
                             <FiPlus size={20} />
                         </Link>

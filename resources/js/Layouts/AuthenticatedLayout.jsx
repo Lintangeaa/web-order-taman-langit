@@ -38,7 +38,11 @@ export default function Authenticated({ user, header, children }) {
                                 <MdRestaurantMenu />
                                 <NavLink
                                     href={route("products.all")}
-                                    active={route().current("products.all")}
+                                    active={
+                                        route().current("products.all") ||
+                                        route().current("products.create") ||
+                                        route().current("products.edit")
+                                    }
                                 >
                                     Menu
                                 </NavLink>
@@ -46,10 +50,11 @@ export default function Authenticated({ user, header, children }) {
                             <li className="flex items-center space-x-4">
                                 <MdRestaurantMenu />
                                 <NavLink
-                                    href={route("products.categories.all")}
-                                    active={route().current(
-                                        "products.categories.all"
-                                    )}
+                                    href={route("categories.all")}
+                                    active={
+                                        route().current("categories.all") ||
+                                        route().current("categories.create")
+                                    }
                                 >
                                     Kategori Menu
                                 </NavLink>

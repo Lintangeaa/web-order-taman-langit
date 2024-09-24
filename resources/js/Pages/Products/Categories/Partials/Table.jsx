@@ -4,8 +4,7 @@ import React, { useState } from "react";
 import { FiDownload, FiEdit, FiTrash } from "react-icons/fi";
 
 const TableProductCategory = ({ categories }) => {
-    console.log(categories)
-
+    console.log(categories);
 
     return (
         <div className="overflow-x-scroll">
@@ -34,7 +33,9 @@ const TableProductCategory = ({ categories }) => {
                             className="bg-white/80 text-black rounded-md"
                         >
                             <td className="py-3 px-6">{index + 1}</td>
-                            <td className="py-3 px-6 text-center">{item.name}</td>
+                            <td className="py-3 px-6 text-center">
+                                {item.name}
+                            </td>
                             <td className="py-3 px-6">
                                 <ActionTableProductCategory item={item} />
                             </td>
@@ -48,16 +49,18 @@ const TableProductCategory = ({ categories }) => {
 
 const ActionTableProductCategory = ({ item }) => {
     const handleDelete = () => {
-        if (confirm("Are you sure to delete this item?")) {
-            router.delete("/categories/" + item.id);
+        if (
+            confirm(`Apakah anda yakin akan menghapus kategori ${item.name}?`)
+        ) {
+            router.delete(route("categories.destroy", item.id));
         }
     };
 
     return (
-        <div className="flex items-center gap-3">
+        <div className="flex items-center justify-center gap-3">
             <Link
-                href={"/categories/" + item.id}
-                className="p-2 bg-blue-500/10 text-blue-500 rounded-md"
+                href={"/products/categories/edit/" + item.id}
+                className="p-2 bg-blue-500/10 hover:bg-blue-500/30 text-blue-500 rounded-md transition-all duration-300"
             >
                 <FiEdit size={20} />
             </Link>
@@ -70,6 +73,5 @@ const ActionTableProductCategory = ({ item }) => {
         </div>
     );
 };
-
 
 export default TableProductCategory;

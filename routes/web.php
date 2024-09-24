@@ -47,9 +47,16 @@ Route::middleware('auth')->group(function () {
         Route::get('', [ProductController::class, 'getAll'])->name('products.all');
         Route::get('/create', [ProductController::class, 'create'])->name('products.create');
         Route::post('/create', [ProductController::class, 'store'])->name('products.store');
+        Route::get('/edit/{id}', [ProductController::class, 'edit'])->name('products.edit');
+        Route::put('/edit/{id}', [ProductController::class, 'update'])->name('products.update');
 
         Route::prefix('/categories')->group(function () {
-            Route::get('', [ProductCategoryController::class, 'getAll'])->name('products.categories.all');
+            Route::get('', [ProductCategoryController::class, 'getAll'])->name('categories.all');
+            Route::get('/create', [ProductCategoryController::class, 'create'])->name('categories.create');
+            Route::post('/create', [ProductCategoryController::class, 'store'])->name('categories.store');
+            Route::get('/edit/{id}', [ProductCategoryController::class, 'edit'])->name('categories.edit');
+            Route::post('/edit/{id}', [ProductCategoryController::class, 'update'])->name('categories.update');
+            Route::delete('/{id}', [ProductCategoryController::class, 'destroy'])->name('categories.destroy');
         });
     });
 });

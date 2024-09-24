@@ -1,23 +1,23 @@
 import React from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
-import FormTable from "./Partials/Form";
 import FormProduct from "./Partials/Form";
 
-const CreateProductPage = ({ auth }) => {
-    const { data, setData, post, errors, processing, recentlySuccessful } =
-        useForm({
-            name: "",
-            description: "",
-            price: 0,
-            stock: 0,
-            image: null
-        });
+const CreateProductPage = ({ auth, categories }) => {
+    const { data, setData, post, errors, processing } = useForm({
+        name: "",
+        description: "",
+        price: 0,
+        stock: 0,
+        category_id: "",
+        image: null,
+    });
 
     const submit = (e) => {
         e.preventDefault();
         post(route("products.store"));
     };
+
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -38,6 +38,7 @@ const CreateProductPage = ({ auth }) => {
                             errors={errors}
                             processing={processing}
                             submit={submit}
+                            categories={categories}
                         />
                     </div>
                 </div>

@@ -1,41 +1,36 @@
 import React from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, useForm } from "@inertiajs/react";
-import FormProduct from "./Partials/Form";
+import { Head, Link, useForm } from "@inertiajs/react";
+import FormCategory from "./Partials/Form";
 
-const EditProductPage = ({ auth, product, categories }) => {
-    const { data, setData, put, errors, processing } = useForm({
-        id: product.id,
-        name: product.name,
-        description: product.description,
-        price: product.price,
-        stock: product.stock,
-        image: null,
-    });
+const UpdateCategoryPage = ({ auth, category }) => {
+    const { data, setData, post, errors, processing, recentlySuccessful } =
+        useForm({
+            name: category.name,
+        });
 
+    console.log(category);
     const submit = (e) => {
         e.preventDefault();
-        put(route("products.update", product.id));
+        post(route("categories.update", category.id));
     };
-
     return (
         <AuthenticatedLayout
             user={auth.user}
             header={
                 <h2 className="font-semibold text-xl text-black leading-tight">
-                    Edit Produk
+                    Edit Kategori Menu
                 </h2>
             }
         >
-            <Head title="Edit Menu" />
+            <Head title="Tambah Kategori Menu Baru" />
 
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                        <FormProduct
+                        <FormCategory
                             setData={setData}
                             data={data}
-                            categories={categories}
                             errors={errors}
                             processing={processing}
                             submit={submit}
@@ -48,4 +43,4 @@ const EditProductPage = ({ auth, product, categories }) => {
     );
 };
 
-export default EditProductPage;
+export default UpdateCategoryPage;

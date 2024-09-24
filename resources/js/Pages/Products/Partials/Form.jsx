@@ -4,10 +4,19 @@ import InputLabel from "@/Components/InputLabel";
 import PrimaryButton from "@/Components/PrimaryButton";
 import TextInput from "@/Components/TextInput";
 
-const FormProduct = ({ data, setData, submit, errors, processing, isEdit=false }) => {
+const FormProduct = ({
+    data,
+    setData,
+    submit,
+    errors,
+    processing,
+    categories,
+    isEdit = false,
+}) => {
     return (
         <form onSubmit={submit} className="mt-6 space-y-6 p-7">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {/* Input untuk nama produk */}
                 <div>
                     <InputLabel htmlFor="name" value="Nama Produk" />
                     <TextInput
@@ -20,6 +29,7 @@ const FormProduct = ({ data, setData, submit, errors, processing, isEdit=false }
                     <InputError message={errors.name} />
                 </div>
 
+                {/* Input untuk deskripsi */}
                 <div>
                     <InputLabel htmlFor="description" value="Deskripsi" />
                     <TextInput
@@ -31,6 +41,7 @@ const FormProduct = ({ data, setData, submit, errors, processing, isEdit=false }
                     <InputError message={errors.description} />
                 </div>
 
+                {/* Input untuk harga */}
                 <div>
                     <InputLabel htmlFor="price" value="Harga" />
                     <TextInput
@@ -44,6 +55,7 @@ const FormProduct = ({ data, setData, submit, errors, processing, isEdit=false }
                     <InputError message={errors.price} />
                 </div>
 
+                {/* Input untuk stok */}
                 <div>
                     <InputLabel htmlFor="stock" value="Stok" />
                     <TextInput
@@ -55,6 +67,26 @@ const FormProduct = ({ data, setData, submit, errors, processing, isEdit=false }
                         required
                     />
                     <InputError message={errors.stock} />
+                </div>
+
+                {/* Input untuk kategori */}
+                <div>
+                    <InputLabel htmlFor="category_id" value="Kategori" />
+                    <select
+                        id="category_id"
+                        className="mt-1 block w-full"
+                        value={data.category_id}
+                        onChange={(e) => setData("category_id", e.target.value)}
+                        required
+                    >
+                        <option value="">Pilih Kategori</option>
+                        {categories.map((category) => (
+                            <option key={category.id} value={category.id}>
+                                {category.name}
+                            </option>
+                        ))}
+                    </select>
+                    <InputError message={errors.category_id} />
                 </div>
 
                 <div>

@@ -13,18 +13,6 @@ const FormTable = ({
     processing,
     isEdit = false,
 }) => {
-    useEffect(() => {
-        const fetchNextTableNumber = async () => {
-            const response = await fetch("/table/next-number");
-            const result = await response.json();
-            setData("no", result.nextNumber);
-        };
-
-        if (!isEdit) {
-            fetchNextTableNumber();
-        }
-    }, [isEdit, setData]);
-
     return (
         <form onSubmit={submit} className="mt-6 space-y-6 p-7">
             <div className="grid-cols-1 md:grid-cols-2 grid gap-3">
@@ -36,9 +24,9 @@ const FormTable = ({
                         value={data.no}
                         onChange={(e) => setData("no", e.target.value)}
                         required
-                        readOnly
                     />
                 </div>
+                <InputError message={errors.no} />
             </div>
 
             <div className="flex items-center gap-4">

@@ -24,7 +24,7 @@ const FormProduct = ({
                         className="mt-1 block w-full"
                         value={data.name}
                         onChange={(e) => setData("name", e.target.value)}
-                        required
+                        required={!isEdit} // Set required based on isEdit
                     />
                     <InputError message={errors.name} />
                 </div>
@@ -37,6 +37,7 @@ const FormProduct = ({
                         className="mt-1 block w-full"
                         value={data.description}
                         onChange={(e) => setData("description", e.target.value)}
+                        required={!isEdit} // Set required based on isEdit
                     />
                     <InputError message={errors.description} />
                 </div>
@@ -50,7 +51,7 @@ const FormProduct = ({
                         className="mt-1 block w-full"
                         value={data.price}
                         onChange={(e) => setData("price", e.target.value)}
-                        required
+                        required={!isEdit} // Set required based on isEdit
                     />
                     <InputError message={errors.price} />
                 </div>
@@ -64,12 +65,11 @@ const FormProduct = ({
                         className="mt-1 block w-full"
                         value={data.stock}
                         onChange={(e) => setData("stock", e.target.value)}
-                        required
+                        required={!isEdit} // Set required based on isEdit
                     />
                     <InputError message={errors.stock} />
                 </div>
 
-                {/* Input untuk kategori */}
                 <div>
                     <InputLabel htmlFor="category_id" value="Kategori" />
                     <select
@@ -77,7 +77,7 @@ const FormProduct = ({
                         className="mt-1 block w-full"
                         value={data.category_id}
                         onChange={(e) => setData("category_id", e.target.value)}
-                        required
+                        required={!isEdit} // Set required based on isEdit
                     >
                         <option value="">Pilih Kategori</option>
                         {categories.map((category) => (

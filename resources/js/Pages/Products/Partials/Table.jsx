@@ -1,11 +1,10 @@
-import { Link, router } from "@inertiajs/react";
+import Alert from "@/Components/Alert";
+import { Link, router, useForm } from "@inertiajs/react";
 import { QRCodeCanvas } from "qrcode.react";
 import React, { useState } from "react";
 import { FiDownload, FiEdit, FiTrash } from "react-icons/fi";
 
 const TableProducts = ({ products }) => {
-    console.log(products);
-
     return (
         <div className="overflow-x-scroll">
             <table className="table-auto w-full text-sm text-left text-gray-700 rounded-lg overflow-hidden">
@@ -81,10 +80,37 @@ const TableProducts = ({ products }) => {
 };
 
 const ActionTableProduct = ({ item }) => {
-    const handleDelete = () => {
-        if (confirm("Are you sure to delete this item?")) {
-            router.delete("/products/" + item.id);
+    const { delete: del } = useForm({});
+
+    const [alert, setAlert] = useState({ message: "", type: "" });
+
+    const handleDelete = (e) => {
+        if (confirm(`Apakah anda yakin akan menghapus produk ${item.name}?`)) {
+            e.preventDefault();
+            del(route("products.delete", item.id), {
+                onSuccess: (response) => {
+                    console.log(response);
+                    if (response.props.flash.success) {
+                        setAlert({
+                            message: response.props.flash.success,
+                            type: "success",
+                        });
+                    }
+                },
+                onError: (response) => {
+                    if (response.props.flash.error) {
+                        setAlert({
+                            message: response.props.flash.error,
+                            type: "error",
+                        });
+                    }
+                },
+            });
         }
+    };
+
+    const closeAlert = () => {
+        setAlert({ message: "", type: "" });
     };
 
     return (
@@ -101,6 +127,11 @@ const ActionTableProduct = ({ item }) => {
             >
                 <FiTrash size={20} />
             </button>
+            <Alert
+                message={alert.message}
+                type={alert.type}
+                onClose={closeAlert}
+            />
         </div>
     );
 };

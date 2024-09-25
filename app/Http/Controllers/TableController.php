@@ -35,6 +35,8 @@ class TableController extends Controller
         $request->validate([
             'no' => 'required|integer|unique:tables,no',
             'status' => 'boolean',
+        ], [
+            'no.unique' => 'Nomor sudah digunakan.'
         ]);
 
         Table::create([
@@ -44,6 +46,7 @@ class TableController extends Controller
 
         return redirect()->route('tables.all')->with('success', 'Table created successfully.');
     }
+
 
     public function show(string $id)
     {

@@ -62,26 +62,38 @@ class ProductController extends Controller
         $product = Product::findOrFail($id);
 
         $request->validate([
-            'name' => 'required|max:255',
+            'name' => 'nullable|max:255',
             'description' => 'nullable|string',
-            'price' => 'required|numeric',
-            'stock' => 'required|integer',
-            'category_id' => 'required|exists:product_categories,id',
+            'price' => 'nullable|numeric',
+            'stock' => 'nullable|integer',
+            'category_id' => 'nullable|exists:product_categories,id',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $product->fill($request->all());
+        // Update product fields
+        $product->fill($request->except('image'));
 
+        // Handle image upload
         if ($request->hasFile('image')) {
+            // Delete the old image if it exists
             if ($product->image) {
                 Storage::disk('public')->delete($product->image);
             }
+            // Store the new image
             $path = $request->file('image')->store('images', 'public');
             $product->image = $path;
         }
 
-
         $product->save();
-        return redirect()->route('products.all')->with('success', 'Product updated successfully.');
+        return redirect()->route('products.all')->with('success', 'Produk Berhasil diupdate');
+    }
+
+
+    public function destroy(string $id)
+    {
+        $table = Product::findOrFail($id);
+        $table->delete();
+
+        return redirect()->route('tables.all')->with('success', 'Produk Berhasil dihapus');
     }
 }

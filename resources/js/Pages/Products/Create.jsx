@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
 import FormProduct from "./Partials/Form";
+import Alert from "@/Components/Alert";
 
 const CreateProductPage = ({ auth, categories }) => {
     const { data, setData, post, errors, processing } = useForm({
@@ -13,9 +14,33 @@ const CreateProductPage = ({ auth, categories }) => {
         image: null,
     });
 
+    const [alert, setAlert] = useState({ message: "", type: "" });
+
     const submit = (e) => {
         e.preventDefault();
-        post(route("products.store"));
+        post(route("products.store"), {
+            onSuccess: (response) => {
+                console.log(response);
+                if (response.props.flash.success) {
+                    setAlert({
+                        message: response.props.flash.success,
+                        type: "success",
+                    });
+                }
+            },
+            onError: (response) => {
+                if (response.props.flash.error) {
+                    setAlert({
+                        message: response.props.flash.error,
+                        type: "error",
+                    });
+                }
+            },
+        });
+    };
+
+    const closeAlert = () => {
+        setAlert({ message: "", type: "" });
     };
 
     return (
@@ -43,6 +68,11 @@ const CreateProductPage = ({ auth, categories }) => {
                     </div>
                 </div>
             </div>
+            <Alert
+                message={alert.message}
+                type={alert.type}
+                onClose={closeAlert}
+            />
         </AuthenticatedLayout>
     );
 };

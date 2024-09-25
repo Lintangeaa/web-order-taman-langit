@@ -13,10 +13,16 @@ const FormProduct = ({
     categories,
     isEdit = false,
 }) => {
+    const category = categories.find((cat) => cat.id === data.category_id);
+    const filteredCategories = categories.filter(
+        (cat) => cat.id !== data.category_id
+    );
+
+    console.log(data.category_id);
+
     return (
         <form onSubmit={submit} className="mt-6 space-y-6 p-7">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                {/* Input untuk nama produk */}
                 <div>
                     <InputLabel htmlFor="name" value="Nama Produk" />
                     <TextInput
@@ -24,12 +30,11 @@ const FormProduct = ({
                         className="mt-1 block w-full"
                         value={data.name}
                         onChange={(e) => setData("name", e.target.value)}
-                        required={!isEdit} // Set required based on isEdit
+                        required={!isEdit}
                     />
                     <InputError message={errors.name} />
                 </div>
 
-                {/* Input untuk deskripsi */}
                 <div>
                     <InputLabel htmlFor="description" value="Deskripsi" />
                     <TextInput
@@ -37,12 +42,11 @@ const FormProduct = ({
                         className="mt-1 block w-full"
                         value={data.description}
                         onChange={(e) => setData("description", e.target.value)}
-                        required={!isEdit} // Set required based on isEdit
+                        required={!isEdit}
                     />
                     <InputError message={errors.description} />
                 </div>
 
-                {/* Input untuk harga */}
                 <div>
                     <InputLabel htmlFor="price" value="Harga" />
                     <TextInput
@@ -51,12 +55,11 @@ const FormProduct = ({
                         className="mt-1 block w-full"
                         value={data.price}
                         onChange={(e) => setData("price", e.target.value)}
-                        required={!isEdit} // Set required based on isEdit
+                        required={!isEdit}
                     />
                     <InputError message={errors.price} />
                 </div>
 
-                {/* Input untuk stok */}
                 <div>
                     <InputLabel htmlFor="stock" value="Stok" />
                     <TextInput
@@ -65,7 +68,7 @@ const FormProduct = ({
                         className="mt-1 block w-full"
                         value={data.stock}
                         onChange={(e) => setData("stock", e.target.value)}
-                        required={!isEdit} // Set required based on isEdit
+                        required={!isEdit}
                     />
                     <InputError message={errors.stock} />
                 </div>
@@ -75,14 +78,18 @@ const FormProduct = ({
                     <select
                         id="category_id"
                         className="mt-1 block w-full"
-                        value={data.category_id}
-                        onChange={(e) => setData("category_id", e.target.value)}
-                        required={!isEdit} // Set required based on isEdit
+                        value={data.category_id || ""}
+                        onChange={(e) =>
+                            setData("category_id", Number(e.target.value))
+                        }
+                        required={!isEdit}
                     >
-                        <option value="">Pilih Kategori</option>
-                        {categories.map((category) => (
-                            <option key={category.id} value={category.id}>
-                                {category.name}
+                        <option value="">
+                            {isEdit ? category?.name : "Pilih Kategori"}
+                        </option>
+                        {filteredCategories.map((cat) => (
+                            <option key={cat.id} value={cat.id}>
+                                {cat.name}
                             </option>
                         ))}
                     </select>

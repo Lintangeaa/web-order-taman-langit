@@ -73,7 +73,7 @@ export default function Authenticated({ user, header, children }) {
                 </div>
             </aside>
 
-            <div className="flex-1 flex flex-col">
+            <div className="flex-1 flex flex-col max-w-2xl lg:max-w-full">
                 <div className="bg-primary flex justify-end">
                     <div className="p-4 ">
                         <Dropdown>
@@ -117,7 +117,7 @@ export default function Authenticated({ user, header, children }) {
                 </div>
                 {header && (
                     <header className="bg-white shadow">
-                        <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                        <div className="max-w-4xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                             {header}
                         </div>
                     </header>

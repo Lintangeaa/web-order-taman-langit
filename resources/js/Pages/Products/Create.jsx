@@ -18,25 +18,7 @@ const CreateProductPage = ({ auth, categories }) => {
 
     const submit = (e) => {
         e.preventDefault();
-        post(route("products.store"), {
-            onSuccess: (response) => {
-                console.log(response);
-                if (response.props.flash.success) {
-                    setAlert({
-                        message: response.props.flash.success,
-                        type: "success",
-                    });
-                }
-            },
-            onError: (response) => {
-                if (response.props.flash.error) {
-                    setAlert({
-                        message: response.props.flash.error,
-                        type: "error",
-                    });
-                }
-            },
-        });
+        post(route("products.store"));
     };
 
     const closeAlert = () => {

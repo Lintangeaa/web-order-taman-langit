@@ -17,6 +17,8 @@ export default {
             },
             colors: {
                 primary: "#27372D",
+                cream: "#FEF3E2",
+                gold: "#EAAC40",
             },
         },
     },

@@ -7,6 +7,7 @@ use App\Models\ProductCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Log;
 
 class ProductController extends Controller
 {
@@ -38,7 +39,8 @@ class ProductController extends Controller
         $product = new Product($request->all());
 
         if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('images', 'public');
+            $filename = time() . '_' . $request->file('image')->getClientOriginalName();
+            $path = $request->file('image')->storeAs('images/product', $filename, 'public');
             $product->image = $path;
         }
 
@@ -70,24 +72,22 @@ class ProductController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        // Update product fields
-        $product->fill($request->except('image'));
+        // Update product attributes except for the image
+        $product->update($request->except('image'));
 
-        // Handle image upload
         if ($request->hasFile('image')) {
-            // Delete the old image if it exists
             if ($product->image) {
                 Storage::disk('public')->delete($product->image);
             }
-            // Store the new image
-            $path = $request->file('image')->store('images', 'public');
-            $product->image = $path;
+
+            $filename = time() . '_' . $request->file('image')->getClientOriginalName();
+            $path = $request->file('image')->storeAs('images/product', $filename, 'public');
+            $product->image = $path; // Update the image path
         }
 
-        $product->save();
+        $product->save(); // Save changes to the image if it was uploaded
         return redirect()->route('products.all')->with('success', 'Produk Berhasil diupdate');
     }
-
 
     public function destroy(string $id)
     {

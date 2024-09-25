@@ -4,18 +4,21 @@ import { Head, useForm } from "@inertiajs/react";
 import FormProduct from "./Partials/Form";
 
 const EditProductPage = ({ auth, product, categories }) => {
-    const { data, setData, put, errors, processing } = useForm({
+    const { data, setData, post, errors, processing } = useForm({
         id: product.id,
         name: product.name,
         description: product.description,
         price: product.price,
         stock: product.stock,
+        category_id: product.category_id,
         image: null,
     });
 
+    console.log(product);
+
     const submit = (e) => {
         e.preventDefault();
-        put(route("products.update", product.id));
+        post(route("products.update", product.id));
     };
 
     return (

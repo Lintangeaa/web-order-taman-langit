@@ -24,7 +24,7 @@ const TableProducts = ({ products }) => {
                     {products.length === 0 && (
                         <tr className="bg-white/80">
                             <td
-                                colSpan={7}
+                                colSpan={8}
                                 className="py-3 px-6 text-center text-black"
                             >
                                 Belum ada menu yang tersedia..

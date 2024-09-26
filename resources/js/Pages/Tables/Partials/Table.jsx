@@ -129,7 +129,7 @@ const QrModal = ({ isOpen, onClose, no }) => {
                 <QRCodeCanvas
                     ref={qrRef}
                     size={400}
-                    value={`http://localhost:8000?no_meja=${no}`}
+                    value={`http://103.175.221.170:4100?no_meja=${no}`}
                 />
                 <div className="flex justify-center">
                     <FiDownload

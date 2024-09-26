@@ -52,12 +52,8 @@ const TableMeja = ({ tables }) => {
                                     <QRCodeCanvas
                                         className="border-2 border-green-500 p-1 rounded cursor-pointer"
                                         size={50}
-                                        value={`http://localhost:8000?no_meja=${item.no}`}
-                                        onClick={() =>
-                                            handleQrClick(
-                                               item.no
-                                            )
-                                        }
+                                        value={`http://103.175.221.170:4100?no_meja=${item.no}`}
+                                        onClick={() => handleQrClick(item.no)}
                                     />
                                 </div>
                             </td>
@@ -105,7 +101,6 @@ const QrModal = ({ isOpen, onClose, no }) => {
         }
     };
 
-
     const handleDownload = () => {
         if (qrRef.current) {
             const canvas = qrRef.current;
@@ -131,7 +126,11 @@ const QrModal = ({ isOpen, onClose, no }) => {
                     &times;
                 </button>
                 <h2 className="text-lg font-bold mb-2">QR Code</h2>
-                <QRCodeCanvas ref={qrRef} size={400} value={`http://localhost:8000?no_meja=${no}`} />
+                <QRCodeCanvas
+                    ref={qrRef}
+                    size={400}
+                    value={`http://localhost:8000?no_meja=${no}`}
+                />
                 <div className="flex justify-center">
                     <FiDownload
                         onClick={handleDownload}

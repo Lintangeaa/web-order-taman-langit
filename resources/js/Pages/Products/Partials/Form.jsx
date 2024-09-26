@@ -13,12 +13,10 @@ const FormProduct = ({
     categories,
     isEdit = false,
 }) => {
-    const category = categories.find((cat) => cat.id === data.category_id);
+    const category = categories.find((cat) => cat.id === data.recent_categ);
     const filteredCategories = categories.filter(
-        (cat) => cat.id !== data.category_id
+        (cat) => cat.id !== data.recent_categ
     );
-
-    console.log(data.category_id);
 
     return (
         <form onSubmit={submit} className="mt-6 space-y-6 p-7">
@@ -84,9 +82,12 @@ const FormProduct = ({
                         }
                         required={!isEdit}
                     >
-                        <option value="">
-                            {isEdit ? category?.name : "Pilih Kategori"}
-                        </option>
+                        {isEdit && category ? (
+                            <option value="">{category?.name}</option>
+                        ) : (
+                            <option value="">Pilih Kategori</option>
+                        )}
+
                         {filteredCategories.map((cat) => (
                             <option key={cat.id} value={cat.id}>
                                 {cat.name}

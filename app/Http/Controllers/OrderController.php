@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\OrderDetail;
+use App\Models\Product;
 use App\Models\Table;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -29,15 +30,16 @@ class OrderController extends Controller
         ]);
 
         $noMeja = $request->no_meja;
-        Log::info('nomeja'. $noMeja);
+        Log::info('nomeja' . $noMeja);
         $date = now()->format('dmy');
         $orderCount = Order::whereDate('created_at', now())->count() + 1;
 
-        $orderId = 'TL' . $date . str_pad($orderCount, 3, '0', STR_PAD_LEFT);
+        $orderId = $date . str_pad($orderCount, 3, '0', STR_PAD_LEFT);
         $table = Table::where('no', $noMeja)->firstOrFail();
 
         Order::create([
             'order_id' => $orderId,
+            'order_number' => 'TL-' . $orderId,
             'guest_name' => $request->input('guest_name'),
             'total_price' => 0,
             'status' => 'pending',
@@ -55,7 +57,8 @@ class OrderController extends Controller
 
     public function index()
     {
-        return Inertia::render('Orders/Create');
+        $products = Product::with('category')->get();
+        return Inertia::render('Orders/Index', ['products' => $products]);
     }
 
     public function addOrderDetails(Request $request, $orderId)
@@ -77,12 +80,9 @@ class OrderController extends Controller
             $totalPrice += $orderDetail->price * $orderDetail->quantity;
         }
 
-        // Update total price in Order
         $order->total_price = $totalPrice;
         $order->save();
 
         return response()->json(['message' => 'Order updated successfully.']);
     }
-
-
 }

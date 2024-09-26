@@ -11,6 +11,7 @@ class CreateOrdersTable extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->string('order_id')->unique();
+            $table->string('order_number')->unique();
             $table->string('guest_name');
             $table->decimal('total_price', 10, 2);
             $table->string('status')->default('pending');
@@ -24,4 +25,3 @@ class CreateOrdersTable extends Migration
         Schema::dropIfExists('orders');
     }
 }
-

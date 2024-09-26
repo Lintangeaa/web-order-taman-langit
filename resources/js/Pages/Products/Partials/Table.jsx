@@ -7,7 +7,7 @@ import { FiDownload, FiEdit, FiTrash } from "react-icons/fi";
 const TableProducts = ({ products }) => {
     return (
         <div className="overflow-x-scroll">
-            <table className="table-auto w-full text-sm text-left text-gray-700 rounded-lg overflow-hidden">
+            <table className="table-auto py-12 w-full text-sm text-left text-gray-700 rounded-lg overflow-hidden">
                 <thead className="text-sm text-black uppercase bg-white">
                     <tr>
                         <th className="py-3 px-6">#</th>

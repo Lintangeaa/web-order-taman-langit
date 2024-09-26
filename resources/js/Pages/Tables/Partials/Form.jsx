@@ -20,6 +20,7 @@ const FormTable = ({
                     <InputLabel htmlFor="no" value="Nomor Meja" />
                     <TextInput
                         id="no"
+                        type="number"
                         className="mt-1 block w-full"
                         value={data.no}
                         onChange={(e) => setData("no", e.target.value)}

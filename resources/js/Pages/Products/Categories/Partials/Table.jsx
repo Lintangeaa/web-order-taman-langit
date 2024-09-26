@@ -13,6 +13,7 @@ const TableProductCategory = ({ categories }) => {
                     <tr>
                         <th className="py-3 px-6">#</th>
                         <th className="py-3 px-6 text-center">Nama</th>
+                        <th className="py-3 px-6 text-center">Gambar</th>
                         <th className="py-3 px-6 text-center">Aksi</th>
                     </tr>
                 </thead>
@@ -35,6 +36,20 @@ const TableProductCategory = ({ categories }) => {
                             <td className="py-3 px-6">{index + 1}</td>
                             <td className="py-3 px-6 text-center">
                                 {item.name}
+                            </td>
+                            <td className="py-3 px-6 text-center">
+                                {item.image && (
+                                    <div className="flex justify-center">
+                                        <img
+                                            src={`/storage/${item.image}`}
+                                            alt={item.name}
+                                            style={{
+                                                width: "100px",
+                                                height: "auto",
+                                            }}
+                                        />
+                                    </div>
+                                )}
                             </td>
                             <td className="py-3 px-6">
                                 <ActionTableProductCategory item={item} />

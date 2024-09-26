@@ -11,6 +11,7 @@ const CreateProductPage = ({ auth, categories }) => {
         price: 0,
         stock: 0,
         category_id: "",
+        recent_categ: null,
         image: null,
     });
 

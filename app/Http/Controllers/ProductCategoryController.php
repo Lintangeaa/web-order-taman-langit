@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\ProductCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class ProductCategoryController extends Controller
@@ -21,8 +23,20 @@ class ProductCategoryController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate(['name' => 'required|string|max:255']);
-        ProductCategory::create($request->all());
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+        ]);
+
+        $productCategory = new ProductCategory($request->all());
+
+        if ($request->hasFile('image')) {
+            $filename = time() . '_' . $request->file('image')->getClientOriginalName();
+            $path = $request->file('image')->storeAs('images/categories', $filename, 'public');
+            $productCategory->image = $path;
+        }
+
+        $productCategory->save();
         return redirect()->route('categories.all')->with('success', 'Category created successfully.');
     }
 
@@ -35,8 +49,25 @@ class ProductCategoryController extends Controller
     public function update(Request $request, $id)
     {
         $category = ProductCategory::findOrFail($id);
-        $request->validate(['name' => 'required|string|max:255']);
-        $category->update($request->all());
+
+        $request->validate([
+            'name' => 'nullable|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+        ]);
+
+        $category->name = $request->input('name', $category->name);
+
+        if ($request->hasFile('image')) {
+            if ($category->image) {
+                Storage::disk('public')->delete($category->image);
+            }
+            $filename = time() . '_' . $request->file('image')->getClientOriginalName();
+            $path = $request->file('image')->storeAs('images/categories', $filename, 'public');
+            $category->image = $path;
+        }
+
+        $category->save();
+
         return redirect()->route('categories.all')->with('success', 'Category updated successfully.');
     }
 

@@ -53,7 +53,8 @@ export default function Authenticated({ user, header, children }) {
                                     href={route("categories.all")}
                                     active={
                                         route().current("categories.all") ||
-                                        route().current("categories.create")
+                                        route().current("categories.create") ||
+                                        route().current("categories.edit")
                                     }
                                 >
                                     Kategori Menu

@@ -17,6 +17,7 @@ const TableProducts = ({ products }) => {
                         <th className="py-3 px-6 text-center">Stok</th>
                         <th className="py-3 px-6 text-center">Gambar</th>
                         <th className="py-3 px-6 text-center">Kategori</th>
+                        <th className="py-3 px-6 text-center">Group</th>
                         <th className="py-3 px-6 text-center">Aksi</th>
                     </tr>
                 </thead>
@@ -24,7 +25,7 @@ const TableProducts = ({ products }) => {
                     {products.length === 0 && (
                         <tr className="bg-white/80">
                             <td
-                                colSpan={8}
+                                colSpan={9}
                                 className="py-3 px-6 text-center text-black"
                             >
                                 Belum ada menu yang tersedia..
@@ -67,6 +68,9 @@ const TableProducts = ({ products }) => {
                                 {item.category
                                     ? item.category.name
                                     : "No Category"}
+                            </td>
+                            <td className="py-3 px-6 text-center">
+                                {item.group ? item.group.name : "No Group"}
                             </td>
                             <td className="py-3 px-6">
                                 <ActionTableProduct item={item} />

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Product;
+use App\Models\ProductCategory;
+use App\Models\ProductGroup;
 use App\Models\Table;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -55,10 +57,16 @@ class OrderController extends Controller
         ]);
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $products = Product::with('category')->get();
-        return Inertia::render('Orders/Index', ['products' => $products]);
+        $groups = ProductGroup::all();
+
+        return Inertia::render('Orders/Index', [
+            'products' => $products,
+            'groups' => $groups,
+            'query' => $request->query()
+        ]);
     }
 
     public function addOrderDetails(Request $request, $orderId)
@@ -84,5 +92,34 @@ class OrderController extends Controller
         $order->save();
 
         return response()->json(['message' => 'Order updated successfully.']);
+    }
+
+    public function redirectToMenuByGroup(Request $request, $groupId)
+    {
+        return redirect()->route('menus.group', ['groupId' => $groupId])
+            ->with([
+                'no_meja' => $request->query('no_meja'),
+                'order_id' => $request->query('order_id'),
+            ]);
+    }
+
+
+    public function productByGroup(Request $request, $groupId)
+    {
+        $noMeja = $request->query('no_meja');
+        $orderId = $request->query('order_id');
+
+        $products = Product::with('category')
+            ->where('group_id', $groupId)
+            ->get();
+        $categories = ProductCategory::all();
+        $group = ProductGroup::findOrFail($groupId);
+        return Inertia::render('Orders/ProductByGroup', [
+            'products' => $products,
+            'categories' => $categories,
+            'group' => $group,
+            'no_meja' => $noMeja,
+            'order_id' => $orderId
+        ]);
     }
 }

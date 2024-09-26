@@ -4,14 +4,16 @@ import { Head, Link, useForm } from "@inertiajs/react";
 import FormProduct from "./Partials/Form";
 import Alert from "@/Components/Alert";
 
-const CreateProductPage = ({ auth, categories }) => {
+const CreateProductPage = ({ auth, categories, groups }) => {
     const { data, setData, post, errors, processing } = useForm({
         name: "",
         description: "",
         price: 0,
         stock: 0,
         category_id: "",
+        group_id: "",
         recent_categ: null,
+        recent_group: null,
         image: null,
     });
 
@@ -47,6 +49,7 @@ const CreateProductPage = ({ auth, categories }) => {
                             processing={processing}
                             submit={submit}
                             categories={categories}
+                            groups={groups}
                         />
                     </div>
                 </div>

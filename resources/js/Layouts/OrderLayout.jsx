@@ -3,7 +3,7 @@ import { FaBars } from "react-icons/fa6";
 import { AiOutlineSearch } from "react-icons/ai";
 import { HiOutlineClipboardDocumentList } from "react-icons/hi2";
 
-export default function OrderLayout({ children }) {
+export default function OrderLayout({ children, path }) {
     return (
         <div className="min-h-screen flex flex-col sm:justify-center items-center sm:pt-0 bg-primary">
             <header className="w-full shadow-2xl rounded-b-md bg-primary">
@@ -28,11 +28,15 @@ export default function OrderLayout({ children }) {
                         <AiOutlineSearch className="text-white text-4xl" />
                     </div>
                 </div>
-                <div className="h-6 bg-gold w-full mb-6 shadow-2xl">
-                    <h1 className="font-black text-white text-center italic">
-                        FOR YOU
-                    </h1>
-                </div>
+                {path ? (
+                    <div className="h-6 bg-gold w-full mb-6 shadow-2xl">
+                        <h1 className="font-black text-white text-center italic">
+                            {path}
+                        </h1>
+                    </div>
+                ) : (
+                    ""
+                )}
             </header>
 
             <div className="w-full sm:max-w-md bg-primary shadow-md overflow-hidden sm:rounded-lg mt-2">

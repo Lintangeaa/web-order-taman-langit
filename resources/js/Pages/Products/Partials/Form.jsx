@@ -11,11 +11,18 @@ const FormProduct = ({
     errors,
     processing,
     categories,
+    groups,
     isEdit = false,
 }) => {
+    console.log("gr", groups);
     const category = categories.find((cat) => cat.id === data.recent_categ);
     const filteredCategories = categories.filter(
         (cat) => cat.id !== data.recent_categ
+    );
+
+    const group = groups.find((grup) => grup.id === data.recent_group);
+    const filteredGroups = groups.filter(
+        (grup) => grup.id !== data.recent_group
     );
 
     return (
@@ -69,6 +76,32 @@ const FormProduct = ({
                         required={!isEdit}
                     />
                     <InputError message={errors.stock} />
+                </div>
+
+                <div>
+                    <InputLabel htmlFor="group_id" value="Group" />
+                    <select
+                        id="group_id"
+                        className="mt-1 block w-full"
+                        value={data.group_id || ""}
+                        onChange={(e) =>
+                            setData("group_id", Number(e.target.value))
+                        }
+                        required={!isEdit}
+                    >
+                        {isEdit && group ? (
+                            <option value="">{group?.name}</option>
+                        ) : (
+                            <option value="">Pilih Group</option>
+                        )}
+
+                        {filteredGroups.map((g) => (
+                            <option key={g.id} value={g.id}>
+                                {g.name}
+                            </option>
+                        ))}
+                    </select>
+                    <InputError message={errors.group_id} />
                 </div>
 
                 <div>

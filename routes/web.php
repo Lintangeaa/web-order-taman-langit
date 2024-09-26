@@ -3,6 +3,7 @@
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductGroupController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TableController;
 use Illuminate\Foundation\Application;
@@ -36,6 +37,8 @@ Route::get('/dashboard', function () {
 Route::get('/', [OrderController::class, 'landing'])->name('orders.landing');
 Route::post('/', [OrderController::class, 'init'])->name('orders.init');
 Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+Route::get('/menus-by-group/{groupId}', [OrderController::class, 'productByGroup'])->name('menus.group');
+Route::get('/redirect-to-menu/{groupId}', [OrderController::class, 'redirectToMenuByGroup'])->name('redirect.menus.group');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -63,6 +66,15 @@ Route::middleware('auth')->group(function () {
             Route::get('/edit/{id}', [ProductCategoryController::class, 'edit'])->name('categories.edit');
             Route::post('/edit/{id}', [ProductCategoryController::class, 'update'])->name('categories.update');
             Route::delete('/{id}', [ProductCategoryController::class, 'destroy'])->name('categories.destroy');
+        });
+
+        Route::prefix('/groups')->group(function () {
+            Route::get('', [ProductGroupController::class, 'getAll'])->name('groups.all');
+            Route::get('/create', [ProductGroupController::class, 'create'])->name('groups.create');
+            Route::post('/create', [ProductGroupController::class, 'store'])->name('groups.store');
+            Route::get('/edit/{id}', [ProductGroupController::class, 'edit'])->name('groups.edit');
+            Route::post('/edit/{id}', [ProductGroupController::class, 'update'])->name('groups.update');
+            Route::delete('/{id}', [ProductGroupController::class, 'destroy'])->name('groups.destroy');
         });
     });
 });

@@ -37,14 +37,14 @@ export default function Authenticated({ user, header, children }) {
                             <li className="flex items-center space-x-4">
                                 <MdRestaurantMenu />
                                 <NavLink
-                                    href={route("products.all")}
+                                    href={route("groups.all")}
                                     active={
-                                        route().current("products.all") ||
-                                        route().current("products.create") ||
-                                        route().current("products.edit")
+                                        route().current("groups.all") ||
+                                        route().current("groups.create") ||
+                                        route().current("groups.edit")
                                     }
                                 >
-                                    Menu
+                                    Group Menu
                                 </NavLink>
                             </li>
                             <li className="flex items-center space-x-4">
@@ -58,6 +58,19 @@ export default function Authenticated({ user, header, children }) {
                                     }
                                 >
                                     Kategori Menu
+                                </NavLink>
+                            </li>
+                            <li className="flex items-center space-x-4">
+                                <MdRestaurantMenu />
+                                <NavLink
+                                    href={route("products.all")}
+                                    active={
+                                        route().current("products.all") ||
+                                        route().current("products.create") ||
+                                        route().current("products.edit")
+                                    }
+                                >
+                                    Menu
                                 </NavLink>
                             </li>
                             <li className="flex items-center space-x-4">

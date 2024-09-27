@@ -122,4 +122,9 @@ class OrderController extends Controller
             'order_id' => $orderId
         ]);
     }
+
+    public function getCheckout()
+    {
+        return Inertia::render('Orders/Checkout');
+    }
 }

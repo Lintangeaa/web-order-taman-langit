@@ -1,12 +1,58 @@
 import OrderLayout from "@/Layouts/OrderLayout";
 import { Head, Link } from "@inertiajs/react";
-import React from "react";
+import React, { useState, useEffect } from "react";
+import OrderComponent from "@/Components/OrderComponent";
 
 const ProductByGroup = ({ products, categories, group, no_meja, order_id }) => {
+    const [isModal, setIsModal] = useState(false);
+    const [selectedItem, setSelectedItem] = useState(null);
+    const [quantity, setQuantity] = useState(1);
+    const [dataOrder, setDataOrder] = useState(() => {
+        const savedOrder = localStorage.getItem("dataOrder");
+        return savedOrder ? JSON.parse(savedOrder) : [];
+    });
+
+    useEffect(() => {
+        localStorage.setItem("dataOrder", JSON.stringify(dataOrder));
+    }, [dataOrder]);
+
+    const handleModal = (item) => {
+        setSelectedItem(item);
+        const existingOrder = dataOrder.find(
+            (orderItem) => orderItem.productId === item.id
+        );
+        setQuantity(existingOrder ? existingOrder.quantity : 1);
+        setIsModal(true);
+    };
+
+    const handleQty = (val) => {
+        setQuantity((prev) => Math.max(1, prev + val));
+    };
+
+    const addToCart = () => {
+        if (selectedItem) {
+            setDataOrder((prev) => {
+                const existingItemIndex = prev.findIndex(
+                    (orderItem) => orderItem.productId === selectedItem.id
+                );
+                if (existingItemIndex > -1) {
+                    const updatedOrder = [...prev];
+                    updatedOrder[existingItemIndex].quantity = quantity;
+                    return updatedOrder;
+                } else {
+                    return [
+                        ...prev,
+                        { productId: selectedItem.id, quantity: quantity },
+                    ];
+                }
+            });
+            setIsModal(false);
+        }
+    };
+
     return (
         <OrderLayout path={group.name}>
             <Head title="Orders" />
-
             <div className="h-full bg-cream min-h-screen">
                 {group.name === "FOR YOU" || group.name === "NEW MENU" ? (
                     <div className={`p-4 grid grid-cols-1 gap-4`}>
@@ -26,7 +72,10 @@ const ProductByGroup = ({ products, categories, group, no_meja, order_id }) => {
                                 </h1>
                                 <div className="mt-8 flex justify-between items-center text-lg text-white md:text-base w-full">
                                     <p>Rp {item.price}</p>
-                                    <button className="bg-white text-black rounded-lg px-4">
+                                    <button
+                                        className="bg-white text-black rounded-lg px-4"
+                                        onClick={() => handleModal(item)}
+                                    >
                                         add +
                                     </button>
                                 </div>
@@ -51,7 +100,10 @@ const ProductByGroup = ({ products, categories, group, no_meja, order_id }) => {
                                 </h1>
                                 <div className="mt-6 flex justify-between items-center text-xs text-white md:text-base w-full">
                                     <p>Rp {item.price}</p>
-                                    <button className="bg-white text-black rounded-lg px-2">
+                                    <button
+                                        className="bg-white text-black rounded-lg px-2"
+                                        onClick={() => handleModal(item)}
+                                    >
                                         add +
                                     </button>
                                 </div>
@@ -60,6 +112,19 @@ const ProductByGroup = ({ products, categories, group, no_meja, order_id }) => {
                     </div>
                 )}
             </div>
+            <OrderComponent
+                isModal={isModal}
+                setIsModal={setIsModal}
+                selectedItem={selectedItem}
+                setSelectedItem={setSelectedItem}
+                quantity={quantity}
+                setQuantity={setQuantity}
+                dataOrder={dataOrder}
+                setDataOrder={setDataOrder}
+                products={products}
+                addToCart={addToCart}
+                handleQty={handleQty}
+            />
         </OrderLayout>
     );
 };

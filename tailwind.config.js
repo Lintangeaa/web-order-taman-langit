@@ -19,6 +19,7 @@ export default {
                 primary: "#27372D",
                 cream: "#FEF3E2",
                 gold: "#EAAC40",
+                roxy: "#D6CDA4",
             },
         },
     },

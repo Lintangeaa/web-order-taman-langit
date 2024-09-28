@@ -2,6 +2,7 @@
 import React from "react";
 import Modal from "@/Components/Modal";
 import { BsCart3, BsChevronRight } from "react-icons/bs";
+import { usePage } from "@inertiajs/react";
 
 const OrderComponent = ({
     isModal,
@@ -16,6 +17,7 @@ const OrderComponent = ({
     addToCart,
     handleQty,
 }) => {
+    const { url } = usePage();
     const calculateTotal = () => {
         return dataOrder.reduce((total, orderItem) => {
             const product = products.find((p) => p.id === orderItem.productId);
@@ -24,7 +26,6 @@ const OrderComponent = ({
     };
 
     const totalPrice = calculateTotal();
-    console.log(dataOrder);
 
     return (
         <>
@@ -88,10 +89,10 @@ const OrderComponent = ({
                 </div>
             </Modal>
 
-            {dataOrder.length > 0 && (
+            {dataOrder.length > 0 && !url.includes("checkout") && (
                 <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-50 w-full px-20">
                     <a
-                        href={route("orders.checkout")}
+                        href={route("orders.checkout")} // Make sure this is the correct route name
                         className="bg-primary shadow-2xl text-white px-6 py-2 rounded-lg flex items-center justify-between w-full"
                     >
                         <div className="relative">

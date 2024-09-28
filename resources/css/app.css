@@ -1,3 +1,28 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap");
+
 @tailwind base;
+
+@layer base {
+    body {
+        font-family: "Poppins", sans-serif !important;
+    }
+}
+
 @tailwind components;
 @tailwind utilities;
+
+.bottom-shadow {
+    position: relative;
+}
+
+.bottom-shadow::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -4px; /* Adjust the offset as needed */
+    height: 4px; /* Adjust the height as needed */
+    background: rgba(0, 0, 0, 0.1); /* Shadow color */
+    filter: blur(4px); /* Adjust the blur as needed */
+    z-index: -1; /* Ensure it’s behind the content */
+}

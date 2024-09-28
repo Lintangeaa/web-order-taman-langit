@@ -89,6 +89,8 @@ class OrderController extends Controller
         }
 
         $order->total_price = $totalPrice;
+        $order->total_service = $request->total_service;
+        $order->total_pbi = $request->total_pbi;
         $order->save();
 
         return response()->json(['message' => 'Order updated successfully.']);
@@ -125,6 +127,19 @@ class OrderController extends Controller
 
     public function getCheckout()
     {
-        return Inertia::render('Orders/Checkout');
+        $recommended = Product::all();
+        $products = Product::all();
+        return Inertia::render('Orders/Checkout', ['recommended' => $recommended, 'products' => $products]);
+    }
+
+    public function getOrderDetail($orderId)
+    {
+        $order = Order::with(['orderDetails.product'])
+            ->where('order_id', $orderId)
+            ->first();
+
+        return Inertia::render('Orders/OrderInformation', [
+            'order' => $order,
+        ]);
     }
 }

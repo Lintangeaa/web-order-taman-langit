@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\OrderController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::post('/orders/{order_id}/details', [OrderController::class, 'addOrderDetails'])->name('api.orders.detail');
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });

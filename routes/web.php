@@ -40,6 +40,7 @@ Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
 Route::get('/menus-by-group/{groupId}', [OrderController::class, 'productByGroup'])->name('menus.group');
 Route::get('/redirect-to-menu/{groupId}', [OrderController::class, 'redirectToMenuByGroup'])->name('redirect.menus.group');
 Route::get('/checkout', [OrderController::class, 'getCheckout'])->name('orders.checkout');
+Route::get('/order-informations/{orderId}', [OrderController::class, 'getOrderDetail'])->name('orders.information');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

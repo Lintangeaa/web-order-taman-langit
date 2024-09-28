@@ -43,15 +43,21 @@ const CreateOrderPage = ({ products, groups, query }) => {
                 const existingItemIndex = prev.findIndex(
                     (orderItem) => orderItem.productId === selectedItem.id
                 );
+
+                const newItem = {
+                    productId: selectedItem.id,
+                    quantity: quantity,
+                    name: selectedItem.name,
+                    price: selectedItem.price,
+                    image: selectedItem.image,
+                };
+
                 if (existingItemIndex > -1) {
                     const updatedOrder = [...prev];
                     updatedOrder[existingItemIndex].quantity = quantity;
                     return updatedOrder;
                 } else {
-                    return [
-                        ...prev,
-                        { productId: selectedItem.id, quantity: quantity },
-                    ];
+                    return [...prev, newItem];
                 }
             });
             setIsModal(false);

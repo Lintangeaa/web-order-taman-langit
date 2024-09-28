@@ -126,6 +126,7 @@ const CheckoutPage = ({ recommended, products }) => {
             console.log(result.message);
             localStorage.removeItem("dataOrder");
             setConfirmModal(false);
+            window.location.href = `/order-information/${order_id}`;
         } catch (error) {
             setErrorMessage(error.message);
             console.error("Error confirming order:", error);

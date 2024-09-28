@@ -13,6 +13,7 @@ class ProductCategory extends Model
     protected $fillable = [
         'name',
         'slug',
+        'image'
     ];
 
     public function products()

@@ -13,12 +13,14 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ["Figtree", ...defaultTheme.fontFamily.sans],
+                poppins: ["Poppins", "sans-serif"],
             },
             colors: {
                 primary: "#27372D",
                 cream: "#FEF3E2",
                 gold: "#EAAC40",
+                roxy: "#D6CDA4",
+                safir: "#5E9805",
             },
         },
     },

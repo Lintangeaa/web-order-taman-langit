@@ -3,9 +3,8 @@ import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
 import PrimaryButton from "@/Components/PrimaryButton";
 import TextInput from "@/Components/TextInput";
-import SecondaryButton from "@/Components/SecondaryButton";
 
-const FormCategory = ({
+const FormGroup = ({
     data,
     setData,
     submit,
@@ -38,7 +37,7 @@ const FormCategory = ({
         <form onSubmit={submit} className="mt-6 space-y-6 p-7">
             <div className="grid grid-cols-1 gap-3">
                 <div>
-                    <InputLabel htmlFor="name" value="Nama Kategori" />
+                    <InputLabel htmlFor="name" value="Nama Group" />
                     <TextInput
                         id="name"
                         className="mt-1 block w-full lg:w-1/2"
@@ -81,4 +80,4 @@ const FormCategory = ({
     );
 };
 
-export default FormCategory;
+export default FormGroup;

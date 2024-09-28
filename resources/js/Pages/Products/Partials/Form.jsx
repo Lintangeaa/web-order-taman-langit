@@ -11,14 +11,19 @@ const FormProduct = ({
     errors,
     processing,
     categories,
+    groups,
     isEdit = false,
 }) => {
-    const category = categories.find((cat) => cat.id === data.category_id);
+    console.log("gr", groups);
+    const category = categories.find((cat) => cat.id === data.recent_categ);
     const filteredCategories = categories.filter(
-        (cat) => cat.id !== data.category_id
+        (cat) => cat.id !== data.recent_categ
     );
 
-    console.log(data.category_id);
+    const group = groups.find((grup) => grup.id === data.recent_group);
+    const filteredGroups = groups.filter(
+        (grup) => grup.id !== data.recent_group
+    );
 
     return (
         <form onSubmit={submit} className="mt-6 space-y-6 p-7">
@@ -74,6 +79,32 @@ const FormProduct = ({
                 </div>
 
                 <div>
+                    <InputLabel htmlFor="group_id" value="Group" />
+                    <select
+                        id="group_id"
+                        className="mt-1 block w-full"
+                        value={data.group_id || ""}
+                        onChange={(e) =>
+                            setData("group_id", Number(e.target.value))
+                        }
+                        required={!isEdit}
+                    >
+                        {isEdit && group ? (
+                            <option value="">{group?.name}</option>
+                        ) : (
+                            <option value="">Pilih Group</option>
+                        )}
+
+                        {filteredGroups.map((g) => (
+                            <option key={g.id} value={g.id}>
+                                {g.name}
+                            </option>
+                        ))}
+                    </select>
+                    <InputError message={errors.group_id} />
+                </div>
+
+                <div>
                     <InputLabel htmlFor="category_id" value="Kategori" />
                     <select
                         id="category_id"
@@ -84,9 +115,12 @@ const FormProduct = ({
                         }
                         required={!isEdit}
                     >
-                        <option value="">
-                            {isEdit ? category?.name : "Pilih Kategori"}
-                        </option>
+                        {isEdit && category ? (
+                            <option value="">{category?.name}</option>
+                        ) : (
+                            <option value="">Pilih Kategori</option>
+                        )}
+
                         {filteredCategories.map((cat) => (
                             <option key={cat.id} value={cat.id}>
                                 {cat.name}

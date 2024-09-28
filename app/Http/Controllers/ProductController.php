@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\ProductCategory;
+use App\Models\ProductGroup;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
@@ -13,15 +14,17 @@ class ProductController extends Controller
 {
     public function getAll()
     {
-        $products = Product::with('category')->get();
+        $products = Product::with(['category', 'group'])->get();
         return Inertia::render('Products/Index', ['products' => $products]);
     }
 
     public function create()
     {
         $categories = ProductCategory::all();
+        $groups = ProductGroup::all();
         return Inertia::render('Products/Create', [
             'categories' => $categories,
+            'groups' => $groups
         ]);
     }
 
@@ -33,6 +36,7 @@ class ProductController extends Controller
             'price' => 'required|numeric',
             'stock' => 'required|integer',
             'category_id' => 'required|exists:product_categories,id',
+            'group_id' => 'required|exists:product_groups,id',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
@@ -52,9 +56,12 @@ class ProductController extends Controller
     {
         $product = Product::findOrFail($id);
         $categories = ProductCategory::all();
+        $groups = ProductGroup::all();
+
         return Inertia::render('Products/Edit', [
             'product' => $product,
             'categories' => $categories,
+            'groups' => $groups
         ]);
     }
 
@@ -69,10 +76,10 @@ class ProductController extends Controller
             'price' => 'nullable|numeric',
             'stock' => 'nullable|integer',
             'category_id' => 'nullable|exists:product_categories,id',
+            'group_id' => 'nullable|exists:product_groups,id',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        // Update product attributes except for the image
         $product->update($request->except('image'));
 
         if ($request->hasFile('image')) {
@@ -82,10 +89,10 @@ class ProductController extends Controller
 
             $filename = time() . '_' . $request->file('image')->getClientOriginalName();
             $path = $request->file('image')->storeAs('images/product', $filename, 'public');
-            $product->image = $path; // Update the image path
+            $product->image = $path;
         }
 
-        $product->save(); // Save changes to the image if it was uploaded
+        $product->save();
         return redirect()->route('products.all')->with('success', 'Produk Berhasil diupdate');
     }
 

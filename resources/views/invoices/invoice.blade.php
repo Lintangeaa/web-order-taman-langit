@@ -3,7 +3,6 @@
 <head>
     <title>Invoice #{{ $order->id }}</title>
     <style>
-
         body { font-family: Arial, sans-serif; }
         h1 { color: #333; }
         table { width: 100%; border-collapse: collapse; }

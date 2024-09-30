@@ -57,7 +57,7 @@ class AdminOrderController extends Controller
             return response()->json(['message' => 'Order not found'], 404);
         }
 
-        // Assuming you're generating a PDF with a view named 'invoices.invoice'
+
         $pdf = PDF::loadView('invoices.invoice', compact('order'));
 
         return $pdf->download('invoice_' . $order->id . '.pdf');

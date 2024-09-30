@@ -15,14 +15,14 @@ class ProductController extends Controller
     public function getAll()
     {
         $products = Product::with(['category', 'group'])->get();
-        return Inertia::render('Products/Index', ['products' => $products]);
+        return Inertia::render('Admin/Products/Index', ['products' => $products]);
     }
 
     public function create()
     {
         $categories = ProductCategory::all();
         $groups = ProductGroup::all();
-        return Inertia::render('Products/Create', [
+        return Inertia::render('Admin/Products/Create', [
             'categories' => $categories,
             'groups' => $groups
         ]);
@@ -34,7 +34,7 @@ class ProductController extends Controller
             'name' => 'required|max:255',
             'description' => 'nullable|string',
             'price' => 'required|numeric',
-            'stock' => 'required|integer',
+            'stock' => 'required|boolean',
             'category_id' => 'required|exists:product_categories,id',
             'group_id' => 'required|exists:product_groups,id',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -58,7 +58,7 @@ class ProductController extends Controller
         $categories = ProductCategory::all();
         $groups = ProductGroup::all();
 
-        return Inertia::render('Products/Edit', [
+        return Inertia::render('Admin/Products/Edit', [
             'product' => $product,
             'categories' => $categories,
             'groups' => $groups
@@ -74,7 +74,7 @@ class ProductController extends Controller
             'name' => 'nullable|max:255',
             'description' => 'nullable|string',
             'price' => 'nullable|numeric',
-            'stock' => 'nullable|integer',
+            'stock' => 'nullable|boolean',
             'category_id' => 'nullable|exists:product_categories,id',
             'group_id' => 'nullable|exists:product_groups,id',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',

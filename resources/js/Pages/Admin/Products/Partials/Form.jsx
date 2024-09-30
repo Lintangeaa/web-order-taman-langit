@@ -66,15 +66,29 @@ const FormProduct = ({
                 </div>
 
                 <div>
-                    <InputLabel htmlFor="stock" value="Stok" />
-                    <TextInput
-                        type="number"
-                        id="stock"
-                        className="mt-1 block w-full"
-                        value={data.stock}
-                        onChange={(e) => setData("stock", e.target.value)}
-                        required={!isEdit}
-                    />
+                    <InputLabel value="Stok" />
+                    <div className="flex mt-1">
+                        <label className="mr-4">
+                            <input
+                                type="radio"
+                                value="true"
+                                checked={data.stock === 1}
+                                onChange={() => setData("stock", true)}
+                                required={!isEdit}
+                            />
+                            Tersedia
+                        </label>
+                        <label>
+                            <input
+                                type="radio"
+                                value="false"
+                                checked={data.stock === 0}
+                                onChange={() => setData("stock", false)}
+                                required={!isEdit}
+                            />
+                            Tidak Tersedia
+                        </label>
+                    </div>
                     <InputError message={errors.stock} />
                 </div>
 

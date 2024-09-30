@@ -14,7 +14,7 @@ const TableProducts = ({ products }) => {
                         <th className="py-3 px-6 text-center">Nama</th>
                         <th className="py-3 px-6 text-center">Deskripsi</th>
                         <th className="py-3 px-6 text-center">Harga</th>
-                        <th className="py-3 px-6 text-center">Stok</th>
+                        <th className="py-3 px-6 text-center">Ketersediaan</th>
                         <th className="py-3 px-6 text-center">Gambar</th>
                         <th className="py-3 px-6 text-center">Kategori</th>
                         <th className="py-3 px-6 text-center">Group</th>
@@ -47,8 +47,16 @@ const TableProducts = ({ products }) => {
                             <td className="py-3 px-6 text-center">
                                 {item.price}
                             </td>
-                            <td className="py-3 px-6 text-center">
-                                {item.stock}
+                            <td className="py-3 px-6 text-center whitespace-nowrap">
+                                {item.stock === 1 ? (
+                                    <span className="text-green-500">
+                                        Tersedia
+                                    </span>
+                                ) : (
+                                    <span className="text-red-500">
+                                        Tidak Tersedia
+                                    </span>
+                                )}
                             </td>
                             <td className="py-3 px-6 text-center">
                                 {item.image && (

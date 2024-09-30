@@ -12,12 +12,12 @@ class ProductGroupController extends Controller
     public function getAll()
     {
         $groups = ProductGroup::all();
-        return Inertia::render('Products/Groups/Index', ['groups' => $groups]);
+        return Inertia::render('Admin/Products/Groups/Index', ['groups' => $groups]);
     }
 
     public function create()
     {
-        return Inertia::render('Products/Groups/Create');
+        return Inertia::render('Admin/Products/Groups/Create');
     }
 
     public function store(Request $request)
@@ -42,7 +42,7 @@ class ProductGroupController extends Controller
     public function edit($id)
     {
         $group = ProductGroup::findOrFail($id);
-        return Inertia::render('Products/Groups/Edit', ['group' => $group]);
+        return Inertia::render('Admin/Products/Groups/Edit', ['group' => $group]);
     }
 
     public function update(Request $request, $id)

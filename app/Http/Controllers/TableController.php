@@ -12,14 +12,14 @@ class TableController extends Controller
     {
         $tables = Table::all();
 
-        return Inertia::render('Tables/Index', [
+        return Inertia::render('Admin/Tables/Index', [
             'tables' => $tables,
         ]);
     }
 
     public function create()
     {
-        return Inertia::render('Tables/Create');
+        return Inertia::render('Admin/Tables/Create');
     }
 
     public function getNextTableNumber()
@@ -52,7 +52,7 @@ class TableController extends Controller
     {
         $table = Table::findOrFail($id);
 
-        return Inertia::render('Tables/Show', [
+        return Inertia::render('Admin/Tables/Show', [
             'table' => $table,
         ]);
     }
@@ -61,7 +61,7 @@ class TableController extends Controller
     {
         $table = Table::findOrFail($id);
 
-        return Inertia::render('Tables/Edit', [
+        return Inertia::render('Admin/Tables/Edit', [
             'table' => $table,
         ]);
     }

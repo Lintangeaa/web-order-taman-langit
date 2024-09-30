@@ -1,9 +1,40 @@
+import { useEffect } from "react";
 import { Link } from "@inertiajs/react";
 import { FaBars } from "react-icons/fa6";
 import { AiOutlineSearch } from "react-icons/ai";
 import { HiOutlineClipboardDocumentList } from "react-icons/hi2";
 
 export default function OrderLayout({ children, path, showbar = true }) {
+    useEffect(() => {
+        let timeoutId;
+
+        const handleVisibilityChange = () => {
+            if (document.visibilityState === "hidden") {
+                console.log(
+                    "Tab is hidden, starting timeout to clear local storage..."
+                );
+                timeoutId = setTimeout(() => {
+                    console.log("Clearing local storage after 5 minutes...");
+                    localStorage.removeItem("guest_name");
+                    localStorage.removeItem("session_id");
+                }, 300000); // 5 minutes
+            } else {
+                clearTimeout(timeoutId);
+                console.log("Tab is visible, clearing any existing timeouts.");
+            }
+        };
+
+        document.addEventListener("visibilitychange", handleVisibilityChange);
+
+        return () => {
+            clearTimeout(timeoutId);
+            document.removeEventListener(
+                "visibilitychange",
+                handleVisibilityChange
+            );
+        };
+    }, []);
+
     return (
         <div className="min-h-screen flex flex-col sm:justify-center items-center sm:pt-0 bg-primary">
             <header className="w-full shadow-2xl rounded-b-md bg-primary z-50">

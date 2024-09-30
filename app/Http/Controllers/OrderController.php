@@ -11,6 +11,7 @@ use App\Models\Table;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
+use Illuminate\Support\Str;
 
 class OrderController extends Controller
 {
@@ -25,23 +26,24 @@ class OrderController extends Controller
 
     public function init(Request $request)
     {
-
         $request->validate([
             'no_meja' => 'required|integer',
-            'guest_name' => 'required|string'
+            'guest_name' => 'required|string',
+            'session_id' => 'nullable|string',
         ]);
 
         $noMeja = $request->no_meja;
-        Log::info('nomeja' . $noMeja);
         $date = now()->format('dmy');
         $orderCount = Order::whereDate('created_at', now())->count() + 1;
-
         $orderId = $date . str_pad($orderCount, 3, '0', STR_PAD_LEFT);
         $table = Table::where('no', $noMeja)->firstOrFail();
+
+        $session_id = $request->input('session_id') ?: (string) Str::uuid();
 
         Order::create([
             'order_id' => $orderId,
             'order_number' => 'TL-' . $orderId,
+            'session_id' => $session_id,
             'guest_name' => $request->input('guest_name'),
             'total_price' => 0,
             'status' => 'pending',
@@ -53,7 +55,8 @@ class OrderController extends Controller
 
         return redirect()->route('orders.index', [
             'no_meja' => $noMeja,
-            'order_id' => $orderId
+            'order_id' => $orderId,
+            'session_id' => $session_id
         ]);
     }
 

@@ -164,7 +164,7 @@ const CheckoutPage = ({ recommended, products }) => {
                                     className="w-1/3 h-16 rounded-lg"
                                 />
 
-                                <div className="flex flex-col justify-between h-full py-1">
+                                <div className="flex flex-col justify-between h-full py-1 w-full">
                                     <h1 className="text-xs font-black">
                                         {item.name}
                                     </h1>

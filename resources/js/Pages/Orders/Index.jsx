@@ -6,6 +6,7 @@ import OrderComponent from "@/Components/OrderComponent";
 const CreateOrderPage = ({ products, groups, query }) => {
     const noMeja = query.no_meja || "";
     const orderId = query.order_id || "";
+    const sessionId = query.session_id || "";
 
     const [isModal, setIsModal] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
@@ -22,7 +23,10 @@ const CreateOrderPage = ({ products, groups, query }) => {
     useEffect(() => {
         localStorage.setItem("no_meja", noMeja);
         localStorage.setItem("order_id", orderId);
-    }, [noMeja, orderId]);
+        localStorage.setItem("session_id", sessionId);
+    }, [noMeja, orderId, sessionId]);
+
+    console.log("ss", sessionId);
 
     const handleModal = (item) => {
         setSelectedItem(item);

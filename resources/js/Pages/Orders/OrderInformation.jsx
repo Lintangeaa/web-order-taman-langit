@@ -13,12 +13,10 @@ const OrderInformationPage = ({ order }) => {
     console.log(order);
 
     useEffect(() => {
-        // Set a timer to change isLoading to false after 3 seconds
         const timer = setTimeout(() => {
             setIsLoading(false);
         }, 3000);
 
-        // Cleanup the timer if the component is unmounted
         return () => clearTimeout(timer);
     }, []);
 
@@ -35,7 +33,7 @@ const OrderInformationPage = ({ order }) => {
     }
 
     const order_time = formatDate(order.updated_at);
-    console.log(order_time);
+    const no_meja = localStorage.getItem("no_meja");
 
     return (
         <OrderLayout showbar={false}>
@@ -183,7 +181,10 @@ const OrderInformationPage = ({ order }) => {
                         )}
                     </div>
                 </div>
-                <RedirectButton className="bg-primary mt-8" href={"/"}>
+                <RedirectButton
+                    className="bg-primary mt-8"
+                    href={`/?no_meja=${no_meja}`}
+                >
                     CONTINUE BROWSING
                 </RedirectButton>
             </div>

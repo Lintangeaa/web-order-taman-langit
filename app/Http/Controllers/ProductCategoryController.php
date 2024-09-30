@@ -13,12 +13,12 @@ class ProductCategoryController extends Controller
     public function getAll()
     {
         $categories = ProductCategory::all();
-        return Inertia::render('Products/Categories/Index', ['categories' => $categories]);
+        return Inertia::render('Admin/Products/Categories/Index', ['categories' => $categories]);
     }
 
     public function create()
     {
-        return Inertia::render('Products/Categories/Create');
+        return Inertia::render('Admin/Products/Categories/Create');
     }
 
     public function store(Request $request)
@@ -43,7 +43,7 @@ class ProductCategoryController extends Controller
     public function edit($id)
     {
         $category = ProductCategory::findOrFail($id);
-        return Inertia::render('Products/Categories/Edit', ['category' => $category]);
+        return Inertia::render('Admin/Products/Categories/Edit', ['category' => $category]);
     }
 
     public function update(Request $request, $id)

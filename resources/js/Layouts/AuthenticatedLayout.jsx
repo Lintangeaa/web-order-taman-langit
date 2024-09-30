@@ -37,6 +37,15 @@ export default function Authenticated({ user, header, children }) {
                             <li className="flex items-center space-x-4">
                                 <MdRestaurantMenu />
                                 <NavLink
+                                    href={route("orders.all")}
+                                    active={route().current("orders.all")}
+                                >
+                                    Order
+                                </NavLink>
+                            </li>
+                            <li className="flex items-center space-x-4">
+                                <MdRestaurantMenu />
+                                <NavLink
                                     href={route("groups.all")}
                                     active={
                                         route().current("groups.all") ||

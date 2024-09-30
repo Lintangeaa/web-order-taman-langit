@@ -16,7 +16,7 @@ class CreateOrdersTable extends Migration
             $table->decimal('total_price', 10, 2)->default(0);
             $table->decimal('total_service', 10, 2)->default(0);
             $table->decimal('total_pbi', 10, 2)->default(0);
-            $table->string('status')->default('pending');
+            $table->string('status')->default('Pending');
             $table->string(column: 'no_table');
             $table->timestamps();
         });

@@ -2,6 +2,7 @@ import OrderLayout from "@/Layouts/OrderLayout";
 import { Head, Link } from "@inertiajs/react";
 import { useState, useEffect } from "react";
 import OrderComponent from "@/Components/OrderComponent";
+import Swal from "sweetalert2";
 
 const CreateOrderPage = ({ products, groups, query }) => {
     const noMeja = query.no_meja || "";
@@ -39,6 +40,14 @@ const CreateOrderPage = ({ products, groups, query }) => {
 
     const addToCart = () => {
         if (selectedItem) {
+            if (selectedItem.stock === 0) {
+                Swal.fire({
+                    icon: "warning",
+                    title: "Maaf",
+                    text: "Stok habis!",
+                });
+                return;
+            }
             setDataOrder((prev) => {
                 const existingItemIndex = prev.findIndex(
                     (orderItem) => orderItem.productId === selectedItem.id
@@ -64,6 +73,7 @@ const CreateOrderPage = ({ products, groups, query }) => {
         }
     };
 
+    console.log("products", products);
     return (
         <OrderLayout>
             <Head title="Orders" />

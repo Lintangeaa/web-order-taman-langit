@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminOrderController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductController;
@@ -78,6 +79,12 @@ Route::middleware('auth')->group(function () {
             Route::post('/edit/{id}', [ProductGroupController::class, 'update'])->name('groups.update');
             Route::delete('/{id}', [ProductGroupController::class, 'destroy'])->name('groups.destroy');
         });
+    });
+
+    Route::prefix('/admin-orders')->group(function () {
+        Route::get('', [AdminOrderController::class, 'index'])->name('orders.all');
+        Route::post('/take/{id}', [AdminOrderController::class, 'takeOrder'])->name('take.orders');
+        Route::post('/bayar/{id}', [AdminOrderController::class, 'paidOrder'])->name('paid.orders');
     });
 });
 

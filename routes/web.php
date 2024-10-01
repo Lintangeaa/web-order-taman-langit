@@ -42,6 +42,7 @@ Route::get('/menus-by-group/{groupId}', [OrderController::class, 'productByGroup
 Route::get('/redirect-to-menu/{groupId}', [OrderController::class, 'redirectToMenuByGroup'])->name('redirect.menus.group');
 Route::get('/checkout', [OrderController::class, 'getCheckout'])->name('orders.checkout');
 Route::get('/order-informations/{orderId}', [OrderController::class, 'getOrderDetail'])->name('orders.information');
+Route::get('/order-bills/{session_id}', [OrderController::class, 'getBill'])->name('orders.bill');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

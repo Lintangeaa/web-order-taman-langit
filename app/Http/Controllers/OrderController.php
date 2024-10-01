@@ -46,7 +46,7 @@ class OrderController extends Controller
             'session_id' => $session_id,
             'guest_name' => $request->input('guest_name'),
             'total_price' => 0,
-            'status' => 'pending',
+            'status' => 'Pending',
             'no_table' => $noMeja,
         ]);
 
@@ -143,6 +143,15 @@ class OrderController extends Controller
 
         return Inertia::render('Orders/OrderInformation', [
             'order' => $order,
+        ]);
+    }
+
+    public function getBill($sessionId)
+    {
+        $orders = Order::where('session_id', $sessionId)->get();
+
+        return Inertia::render('Orders/Bill', [
+            'orders' => $orders
         ]);
     }
 }

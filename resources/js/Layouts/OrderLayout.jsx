@@ -35,6 +35,11 @@ export default function OrderLayout({ children, path, showbar = true }) {
         };
     }, []);
 
+    const session_id = localStorage.getItem("session_id");
+    const handleBill = () => {
+        window.location.href = `/order-bills/${session_id}`;
+    };
+
     return (
         <div className="min-h-screen flex flex-col sm:justify-center items-center sm:pt-0 bg-primary">
             <header className="w-full shadow-2xl rounded-b-md bg-primary z-50">
@@ -54,7 +59,10 @@ export default function OrderLayout({ children, path, showbar = true }) {
                         />
                     </div>
                     <div className="flex space-x-1 justify-end items-center w-1/3">
-                        <div className="flex flex-col justify-center items-center cursor-pointer">
+                        <div
+                            className="flex flex-col justify-center items-center cursor-pointer"
+                            onClick={handleBill}
+                        >
                             <HiOutlineClipboardDocumentList className="text-white text-3xl" />
                             <p className="text-xs text-white italic">
                                 View Bill

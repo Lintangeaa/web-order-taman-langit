@@ -120,9 +120,19 @@ const TableOrders = ({ orders }) => {
     const [selectedItem, setSelectedItem] = useState(null);
     const [detailModal, setDetailModal] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 10;
 
     const filteredOrders = orders.filter((order) =>
         order.order_id.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    const totalPages = Math.ceil(filteredOrders.length / itemsPerPage);
+
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const currentOrders = filteredOrders.slice(
+        startIndex,
+        startIndex + itemsPerPage
     );
 
     return (
@@ -153,7 +163,7 @@ const TableOrders = ({ orders }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {filteredOrders.length === 0 && (
+                        {currentOrders.length === 0 && (
                             <tr className="bg-white/80">
                                 <td
                                     colSpan={7}
@@ -163,12 +173,14 @@ const TableOrders = ({ orders }) => {
                                 </td>
                             </tr>
                         )}
-                        {filteredOrders.map((item, index) => (
+                        {currentOrders.map((item, index) => (
                             <tr
                                 key={item.id}
                                 className="bg-white/80 text-black rounded-md"
                             >
-                                <td className="py-3 px-6">{index + 1}</td>
+                                <td className="py-3 px-6">
+                                    {startIndex + index + 1}
+                                </td>
                                 <td className="py-3 px-6 text-center">
                                     {item.order_id}
                                 </td>
@@ -211,9 +223,38 @@ const TableOrders = ({ orders }) => {
                     </tbody>
                 </table>
             </div>
+
+            {/* Pagination Controls */}
+            <div className="flex justify-between items-center mt-4">
+                <button
+                    disabled={currentPage === 1}
+                    onClick={() =>
+                        setCurrentPage((prev) => Math.max(prev - 1, 1))
+                    }
+                    className="px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
+                >
+                    Prev
+                </button>
+                <span>
+                    Page {currentPage} of {totalPages}
+                </span>
+                <button
+                    disabled={currentPage === totalPages}
+                    onClick={() =>
+                        setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+                    }
+                    className="px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
+                >
+                    Next
+                </button>
+            </div>
+
             {detailModal && (
                 <Modal show={detailModal} onClose={() => setDetailModal(false)}>
-                    <div className="h-screen w-full bg-black/50 flex justify-center items-center px-64 py-40">
+                    <div
+                        className="h-screen w-full bg-black/50 flex justify-center items-center px-64 py-40"
+                        onClick={() => setDetailModal(false)}
+                    >
                         <div className="w-full h-full bg-white rounded-lg p-4">
                             <p>{selectedItem.guest_name}</p>
                         </div>
@@ -279,18 +320,21 @@ const ActionTableOrders = ({ item, setDetailModal, setSelectedItem }) => {
             >
                 <IoEyeOutline size={20} />
             </button>
-            <button
-                onClick={handleBayar}
-                className="p-2 bg-red-500/10 text-red-500 rounded-md hover:bg-red-500/30 transition-all duration-300"
-            >
-                <TbCashRegister size={20} />
-            </button>
-            <button
-                onClick={handleDownloadInvoice}
-                className="p-2 bg-blue-500/10 text-blue-500 rounded-md hover:bg-blue-500/30 transition-all duration-300"
-            >
-                <FiDownload size={20} />
-            </button>
+            {item.status === "Complete" ? (
+                <button
+                    onClick={handleDownloadInvoice}
+                    className="p-2 bg-blue-500/10 text-blue-500 rounded-md hover:bg-blue-500/30 transition-all duration-300"
+                >
+                    <FiDownload size={20} />
+                </button>
+            ) : (
+                <button
+                    onClick={handleBayar}
+                    className="p-2 bg-red-500/10 text-red-500 rounded-md hover:bg-red-500/30 transition-all duration-300"
+                >
+                    <TbCashRegister size={20} />
+                </button>
+            )}
         </div>
     );
 };

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\Table;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -14,11 +15,14 @@ class AdminOrderController extends Controller
     {
         $takeOrders = Order::with('orderDetails.product')
             ->where('status', 'Pending')
+            ->orderBy('updated_at', 'DESC')
             ->get();
 
         $orders = Order::with('orderDetails.product')
             ->where('status', '<>', 'Pending')
+            ->orderBy('updated_at', 'DESC')
             ->get();
+
         return Inertia::render('Admin/Orders/Index', ['orders' => $orders, 'takeOrders' => $takeOrders]);
     }
 
@@ -43,6 +47,14 @@ class AdminOrderController extends Controller
         if (!$order) {
             return response()->json(['message' => 'Order not found'], 404);
         }
+
+        $table = Table::where('no', $order->no_table)->first();
+
+        if (!$table) {
+            return response()->json(['message' => 'Table not found'], 404);
+        }
+        $table->status = true;
+        $table->save();
 
         $order->status = 'Complete';
         $order->save();

@@ -81,7 +81,9 @@ class OrderController extends Controller
 
     public function index(Request $request)
     {
-        $products = Product::with('category')->get();
+        $products = Product::with('category')
+        ->where('stock', true)
+        ->get();
         $groups = ProductGroup::all();
 
         return Inertia::render('Orders/Index', [
@@ -150,7 +152,9 @@ class OrderController extends Controller
     public function getCheckout()
     {
         $recommended = Product::all();
-        $products = Product::all();
+        $products = Product::with('category')
+        ->where('stock', true)
+        ->get();
         $setting = Setting::first();
 
         return Inertia::render('Orders/Checkout', ['recommended' => $recommended, 'products' => $products, 'setting'=>$setting]);
@@ -161,7 +165,9 @@ class OrderController extends Controller
         $order = Order::with(['orderDetails.product'])
             ->where('order_id', $orderId)
             ->first();
-        $products = Product::with('category')->get();
+            $products = Product::with('category')
+            ->where('stock', true)
+            ->get();
 
         return Inertia::render('Orders/OrderInformation', [
             'order' => $order,'products' => $products

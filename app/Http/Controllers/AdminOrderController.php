@@ -21,6 +21,7 @@ class AdminOrderController extends Controller
 
         $orders = Order::with('orderDetails.product')
             ->where('status', '<>', 'Pending')
+            ->orderByRaw("CASE WHEN status = 'Complete' THEN 1 ELSE 0 END")
             ->orderBy('updated_at', 'DESC')
             ->get();
 

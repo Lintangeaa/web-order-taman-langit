@@ -16,7 +16,7 @@ export default function Authenticated({ user, header, children }) {
     return (
         <div className="flex min-h-screen bg-gray-100">
             <aside
-                className={`bg-white border-r border-gray-200 shadow-xl ${
+                className={`bg-white border-r border-gray-200 shadow-xl fixed h-full ${
                     showingSidebar ? "w-64" : "w-16"
                 } transition-all`}
             >
@@ -106,7 +106,9 @@ export default function Authenticated({ user, header, children }) {
                 </div>
             </aside>
 
-            <div className="flex-1 flex flex-col max-w-2xl lg:max-w-full">
+            <div className="flex-1 flex flex-col max-w-2xl lg:max-w-full ml-64">
+                {" "}
+                {/* Adjusted for sidebar width */}
                 <div className="bg-primary flex justify-end">
                     <div className="p-4 ">
                         <Dropdown>

@@ -7,7 +7,7 @@ import { BsArrowLeft } from "react-icons/bs";
 import { FaCartPlus } from "react-icons/fa6";
 import { IoCaretDownOutline, IoCaretUpOutline } from "react-icons/io5";
 
-const CheckoutPage = ({ recommended, products }) => {
+const CheckoutPage = ({ recommended, products, setting }) => {
     const [dataOrder, setDataOrder] = useState(() => {
         const savedOrder = localStorage.getItem("dataOrder");
         return savedOrder ? JSON.parse(savedOrder) : [];
@@ -27,9 +27,12 @@ const CheckoutPage = ({ recommended, products }) => {
     };
 
     const totalPrice = calculateTotal();
-    const total_service = 20000;
-    const total_pbi = totalPrice * 0.1;
-    const totalPayment = totalPrice + total_service + total_pbi;
+    const total_service = setting.service_charge;
+    const total_pbi = totalPrice * parseFloat(setting.tax / 100);
+    const totalPayment =
+        parseFloat(totalPrice) +
+        parseFloat(total_service) +
+        parseFloat(total_pbi);
 
     const updateQuantity = (productId, increment) => {
         setDataOrder((prev) => {
@@ -140,13 +143,14 @@ const CheckoutPage = ({ recommended, products }) => {
                 <div className="w-1/3 flex items-center justify-start">
                     <BsArrowLeft className="text-xl text-primary" />
                 </div>
-                <div>
+                <div className="flex flex-col justify-center items-center w-1/3">
                     <div className="flex justify-center items-center space-x-1">
                         <FaCartPlus className="text-primary" />
                         <h1 className="text-lg font-black">ORDER CART</h1>
                     </div>
                     <p className="text-xs">Taman Langit Cafe Baturaden</p>
                 </div>
+                <div className="flex flex-col justify-center items-center w-1/3"></div>
             </header>
             <div className="p-4 shadow-lg w-full overflow-x-auto">
                 <h1 className="text-primary font-bold text-sm mt-4">

@@ -7,7 +7,7 @@ import { GiSandsOfTime } from "react-icons/gi";
 import { IoCaretDownOutline, IoCaretUpOutline } from "react-icons/io5";
 import { MdOutlineDone } from "react-icons/md";
 
-const OrderInformationPage = ({ order }) => {
+const OrderInformationPage = ({ order, products }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [showSummary, setShowSummary] = useState(false);
     console.log(order);
@@ -36,7 +36,7 @@ const OrderInformationPage = ({ order }) => {
     const no_meja = localStorage.getItem("no_meja");
 
     return (
-        <OrderLayout showbar={false}>
+        <OrderLayout showbar={false} products={products}>
             <Head title={"Order Information"} />
             <div className="bg-white p-4 py-6 flex flex-col items-center min-h-screen">
                 <h1 className="font-bold italic">

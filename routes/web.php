@@ -6,6 +6,7 @@ use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductGroupController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\TableController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -79,6 +80,11 @@ Route::middleware('auth')->group(function () {
             Route::get('/edit/{id}', [ProductGroupController::class, 'edit'])->name('groups.edit');
             Route::post('/edit/{id}', [ProductGroupController::class, 'update'])->name('groups.update');
             Route::delete('/{id}', [ProductGroupController::class, 'destroy'])->name('groups.destroy');
+        });
+
+        Route::prefix('/setting')->group(function () {
+            Route::get('', [SettingController::class, 'index'])->name('setting.index');
+            Route::post('', [SettingController::class, 'update'])->name('setting.update');
         });
     });
 

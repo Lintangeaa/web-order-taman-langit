@@ -7,6 +7,7 @@ use App\Models\OrderDetail;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\ProductGroup;
+use App\Models\Setting;
 use App\Models\Table;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -33,6 +34,24 @@ class OrderController extends Controller
         ]);
 
         $noMeja = $request->no_meja;
+
+        // Check for existing orders with the same guest_name and session_id
+        $existingOrder = Order::where('guest_name', $request->guest_name)
+            ->where('session_id', $request->input('session_id'))
+            ->where('total_price', 0)
+            ->where('status', 'Pending')
+            ->first();
+
+        if ($existingOrder) {
+            // If an existing order is found, use it instead of creating a new one
+            return redirect()->route('orders.index', [
+                'no_meja' => $noMeja,
+                'order_id' => $existingOrder->order_id,
+                'session_id' => $existingOrder->session_id
+            ]);
+        }
+
+        // Create new order if no existing order is found
         $date = now()->format('dmy');
         $orderCount = Order::whereDate('created_at', now())->count() + 1;
         $orderId = $date . str_pad($orderCount, 3, '0', STR_PAD_LEFT);
@@ -132,7 +151,9 @@ class OrderController extends Controller
     {
         $recommended = Product::all();
         $products = Product::all();
-        return Inertia::render('Orders/Checkout', ['recommended' => $recommended, 'products' => $products]);
+        $setting = Setting::first();
+
+        return Inertia::render('Orders/Checkout', ['recommended' => $recommended, 'products' => $products, 'setting'=>$setting]);
     }
 
     public function getOrderDetail($orderId)
@@ -140,15 +161,21 @@ class OrderController extends Controller
         $order = Order::with(['orderDetails.product'])
             ->where('order_id', $orderId)
             ->first();
+        $products = Product::with('category')->get();
 
         return Inertia::render('Orders/OrderInformation', [
-            'order' => $order,
+            'order' => $order,'products' => $products
         ]);
     }
 
     public function getBill($sessionId)
     {
-        $orders = Order::where('session_id', $sessionId)->get();
+        $orders = Order::with(['orderDetails.product'])
+            ->where('session_id', $sessionId)
+            ->get()
+            ->filter(function ($order) {
+                return $order->orderDetails->isNotEmpty();
+            });
 
         return Inertia::render('Orders/Bill', [
             'orders' => $orders

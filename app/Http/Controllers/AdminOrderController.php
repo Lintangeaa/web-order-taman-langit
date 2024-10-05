@@ -15,6 +15,7 @@ class AdminOrderController extends Controller
     {
         $takeOrders = Order::with('orderDetails.product')
             ->where('status', 'Pending')
+            ->has('orderDetails')
             ->orderBy('updated_at', 'DESC')
             ->get();
 

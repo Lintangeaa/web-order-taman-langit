@@ -11,6 +11,7 @@ const ProductByGroup = ({ products, categories, group, no_meja, order_id }) => {
         const savedOrder = localStorage.getItem("dataOrder");
         return savedOrder ? JSON.parse(savedOrder) : [];
     });
+    const [activeCategory, setActiveCategory] = useState(null);
 
     useEffect(() => {
         localStorage.setItem("dataOrder", JSON.stringify(dataOrder));
@@ -56,8 +57,25 @@ const ProductByGroup = ({ products, categories, group, no_meja, order_id }) => {
         }
     };
 
+    const handleActiveCategory = (category) => {
+        setActiveCategory(category);
+    };
+
+    const filteredProducts = activeCategory
+        ? products.filter((product) =>
+              product.category.name
+                  .toLowerCase()
+                  .includes(activeCategory.toLowerCase())
+          )
+        : products;
+
     return (
-        <OrderLayout path={group.name}>
+        <OrderLayout
+            path={group.name}
+            products={products}
+            onCategoryChange={handleActiveCategory}
+            activeCategory={activeCategory}
+        >
             <Head title="Orders" />
             <div className="h-full bg-cream min-h-screen">
                 {group.name === "FOR YOU" || group.name === "NEW MENU" ? (
@@ -89,12 +107,16 @@ const ProductByGroup = ({ products, categories, group, no_meja, order_id }) => {
                         ))}
                     </div>
                 ) : (
-                    <div className={`p-4 grid grid-cols-2 gap-4`}>
-                        {products.length === 0 && <div>Tidak ada menu</div>}
-                        {products.map((item, index) => (
+                    <div
+                        className={`p-4 grid grid-cols-2 md:grid-cols-5 gap-4`}
+                    >
+                        {filteredProducts.length === 0 && (
+                            <div>Tidak ada menu</div>
+                        )}
+                        {filteredProducts.map((item, index) => (
                             <div
                                 key={index}
-                                className="w-44 lg:w-80 p-3 flex flex-col justify-between items-center border-2 bg-primary rounded-xl mx-auto"
+                                className="w-44 lg:w-64 p-3 flex flex-col justify-between items-center border-2 bg-primary rounded-xl mx-auto"
                             >
                                 <img
                                     src={`/storage/${item.image}`}

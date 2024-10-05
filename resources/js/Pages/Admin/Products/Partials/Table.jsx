@@ -1,12 +1,52 @@
 import Alert from "@/Components/Alert";
 import { Link, router, useForm } from "@inertiajs/react";
-import { QRCodeCanvas } from "qrcode.react";
 import React, { useState } from "react";
-import { FiDownload, FiEdit, FiTrash } from "react-icons/fi";
+import { FiEdit, FiTrash } from "react-icons/fi";
 
 const TableProducts = ({ products }) => {
+    const [searchTerm, setSearchTerm] = useState("");
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(10); // State for items per page
+    const [sortOrder, setSortOrder] = useState("asc");
+
+    const filteredProducts = products.filter(
+        (product) =>
+            product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            product.category.name
+                .toLowerCase()
+                .includes(searchTerm.toLowerCase()) ||
+            product.group.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    const sortedProducts = [...filteredProducts].sort((a, b) => {
+        return sortOrder === "asc" ? a.price - b.price : b.price - a.price;
+    });
+
+    const totalPages = Math.ceil(sortedProducts.length / itemsPerPage);
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const currentProducts = sortedProducts.slice(
+        startIndex,
+        startIndex + itemsPerPage
+    );
+
     return (
         <div className="overflow-x-scroll">
+            <input
+                type="text"
+                placeholder="Search"
+                className="p-2 border border-gray-300 rounded mb-4"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            <select
+                className="p-2 border border-gray-300 rounded mb-4 w-44"
+                value={sortOrder}
+                onChange={(e) => setSortOrder(e.target.value)}
+            >
+                <option value="asc">Harga Terendah</option>
+                <option value="desc">Harga Tertinggi</option>
+            </select>
+
             <table className="table-auto py-12 w-full text-sm text-left text-gray-700 rounded-lg overflow-hidden">
                 <thead className="text-sm text-black uppercase bg-white">
                     <tr>
@@ -22,7 +62,7 @@ const TableProducts = ({ products }) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {products.length === 0 && (
+                    {currentProducts.length === 0 && (
                         <tr className="bg-white/80">
                             <td
                                 colSpan={9}
@@ -32,12 +72,14 @@ const TableProducts = ({ products }) => {
                             </td>
                         </tr>
                     )}
-                    {products.map((item, index) => (
+                    {currentProducts.map((item, index) => (
                         <tr
                             key={item.id}
                             className="bg-white/80 text-black rounded-md"
                         >
-                            <td className="py-3 px-6">{index + 1}</td>
+                            <td className="py-3 px-6">
+                                {startIndex + index + 1}
+                            </td>
                             <td className="py-3 px-6 text-center">
                                 {item.name}
                             </td>
@@ -87,13 +129,50 @@ const TableProducts = ({ products }) => {
                     ))}
                 </tbody>
             </table>
+            <div className="flex justify-end">
+                <select
+                    className="p-2 border border-gray-300 rounded mb-4 w-16"
+                    value={itemsPerPage}
+                    onChange={(e) => {
+                        setItemsPerPage(Number(e.target.value));
+                        setCurrentPage(1); // Reset to the first page
+                    }}
+                >
+                    <option value={5}>5</option>
+                    <option value={10}>10</option>
+                    <option value={20}>20</option>
+                    <option value={50}>50</option>
+                </select>
+            </div>
+            <div className="flex justify-between items-center mt-4">
+                <button
+                    disabled={currentPage === 1}
+                    onClick={() =>
+                        setCurrentPage((prev) => Math.max(prev - 1, 1))
+                    }
+                    className="px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
+                >
+                    Prev
+                </button>
+                <span>
+                    Page {currentPage} of {totalPages}
+                </span>
+                <button
+                    disabled={currentPage === totalPages}
+                    onClick={() =>
+                        setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+                    }
+                    className="px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
+                >
+                    Next
+                </button>
+            </div>
         </div>
     );
 };
 
 const ActionTableProduct = ({ item }) => {
     const { delete: del } = useForm({});
-
     const [alert, setAlert] = useState({ message: "", type: "" });
 
     const handleDelete = (e) => {
@@ -101,7 +180,6 @@ const ActionTableProduct = ({ item }) => {
             e.preventDefault();
             del(route("products.delete", item.id), {
                 onSuccess: (response) => {
-                    console.log(response);
                     if (response.props.flash.success) {
                         setAlert({
                             message: response.props.flash.success,

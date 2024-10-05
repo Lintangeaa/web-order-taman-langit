@@ -8,6 +8,7 @@ import {
     MdOutlineTableRestaurant,
     MdRestaurantMenu,
 } from "react-icons/md";
+import { FiSettings } from "react-icons/fi";
 
 export default function Authenticated({ user, header, children }) {
     const [showingSidebar, setShowingSidebar] = useState(true);
@@ -89,6 +90,15 @@ export default function Authenticated({ user, header, children }) {
                                     active={route().current("tables.all")}
                                 >
                                     Meja
+                                </NavLink>
+                            </li>
+                            <li className="flex items-center space-x-4">
+                                <FiSettings />
+                                <NavLink
+                                    href={route("setting.index")}
+                                    active={route().current("setting.index")}
+                                >
+                                    Setting
                                 </NavLink>
                             </li>
                         </ul>

@@ -21,6 +21,7 @@ export default {
                 gold: "#EAAC40",
                 roxy: "#D6CDA4",
                 safir: "#5E9805",
+                moca: "#DFD9B9",
             },
         },
     },

@@ -19,8 +19,9 @@ class OrderController extends Controller
     public function landing(Request $request)
     {
         $noMeja = $request->query('no_meja');
+        $setting = Setting::first();
         return Inertia::render('Orders/Landing', [
-            'no_meja' => $noMeja,
+            'no_meja' => $noMeja, 'setting' => $setting
         ]);
     }
 

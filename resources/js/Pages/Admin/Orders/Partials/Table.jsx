@@ -255,9 +255,7 @@ const TableOrders = ({ orders }) => {
                         className="h-screen w-full bg-black/50 flex justify-center items-center px-64 py-40"
                         onClick={() => setDetailModal(false)}
                     >
-                        <div className="w-full h-full bg-white rounded-lg p-4">
-                            <p>{selectedItem.guest_name}</p>
-                        </div>
+                        <div className="w-full h-full bg-white rounded-lg p-4"></div>
                     </div>
                 </Modal>
             )}

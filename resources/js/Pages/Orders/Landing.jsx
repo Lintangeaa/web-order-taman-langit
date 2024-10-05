@@ -4,7 +4,7 @@ import TextInput from "@/Components/TextInput";
 import { Head, useForm } from "@inertiajs/react";
 import React, { useEffect } from "react";
 
-const Landing = ({ no_meja }) => {
+const Landing = ({ no_meja, setting }) => {
     const guest_name = localStorage.getItem("guest_name");
     const sessionId = localStorage.getItem("session_id");
     const { data, setData, post, errors, processing } = useForm({
@@ -38,30 +38,43 @@ const Landing = ({ no_meja }) => {
                         height={20}
                     />
                 </div>
-                <div>
-                    <InputLabel
-                        htmlFor="guest_name"
-                        value="Nama"
-                        className="lg:text-lg text-white lg:font-semibold mb-2"
-                    />
-                    <TextInput
-                        id="guest_name"
-                        className="mt-1 block w-full bg-cream"
-                        value={data.guest_name}
-                        onChange={(e) => setData("guest_name", e.target.value)}
-                        required
-                    />
-                    <InputError message={errors.guest_name} />
-                </div>
 
-                <div className="flex items-center justify-center mt-16 gap-4">
-                    <button
-                        disabled={processing}
-                        className="bg-gold p-2 rounded-lg px-6 font-bold text-white"
-                    >
-                        Lanjutkan
-                    </button>
-                </div>
+                {setting && setting.status_open ? (
+                    <div>
+                        <div>
+                            <InputLabel
+                                htmlFor="guest_name"
+                                value="Nama"
+                                className="lg:text-lg text-white lg:font-semibold mb-2"
+                            />
+                            <TextInput
+                                id="guest_name"
+                                className="mt-1 block w-full bg-cream"
+                                value={data.guest_name}
+                                onChange={(e) =>
+                                    setData("guest_name", e.target.value)
+                                }
+                                required
+                            />
+                            <InputError message={errors.guest_name} />
+                        </div>
+
+                        <div className="flex items-center justify-center mt-16 gap-4">
+                            <button
+                                disabled={processing}
+                                className="bg-gold p-2 rounded-lg px-6 font-bold text-white"
+                            >
+                                Lanjutkan
+                            </button>
+                        </div>
+                    </div>
+                ) : (
+                    <div className="w-80 h-64 bg-cream rounded flex justify-center items-center">
+                        <h1 className="text-red-500 font-bold text-lg">
+                            Maaf Saat Ini Kami Sedang Tutup
+                        </h1>
+                    </div>
+                )}
             </form>
         </div>
     );

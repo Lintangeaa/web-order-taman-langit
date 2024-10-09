@@ -103,18 +103,30 @@ export default function Dashboard({
 
                             {/* feedback */}
                             <div className="mt-5 overflow-y-auto max-h-[800px]">
-                                {feedbacks.map((feedback, i) => (
-                                    <div
-                                        key={i}
-                                        className="bg-black/10 w-full rounded mt-2 mb-2 p-2 text-lg flex flex-col space-y-2"
-                                    >
-                                        <p className="text-red-500 font-semibold">
-                                            {feedback.content}
-                                        </p>
-                                        <StarRating rating={feedback.rating} />
-                                        <p>{formatDate(feedback.created_at)}</p>
-                                    </div>
-                                ))}
+                                {feedbacks && feedbacks.length === 0 ? (
+                                    <p className="text-gray-500 text-center">
+                                        Belum ada feedback
+                                    </p>
+                                ) : (
+                                    feedbacks.map((feedback, i) => (
+                                        <div
+                                            key={i}
+                                            className="bg-black/10 w-full rounded mt-2 mb-2 p-2 text-lg flex flex-col space-y-2"
+                                        >
+                                            <p className="text-red-500 font-semibold">
+                                                {feedback.content}
+                                            </p>
+                                            <StarRating
+                                                rating={feedback.rating}
+                                            />
+                                            <p>
+                                                {formatDate(
+                                                    feedback.created_at
+                                                )}
+                                            </p>
+                                        </div>
+                                    ))
+                                )}
                             </div>
                         </div>
                     </div>

@@ -6,6 +6,7 @@ import { Link } from "@inertiajs/react";
 import {
     MdDashboard,
     MdOutlineTableRestaurant,
+    MdReport,
     MdRestaurantMenu,
 } from "react-icons/md";
 import { FiSettings } from "react-icons/fi";
@@ -90,6 +91,15 @@ export default function Authenticated({ user, header, children }) {
                                     active={route().current("tables.all")}
                                 >
                                     Meja
+                                </NavLink>
+                            </li>
+                            <li className="flex items-center space-x-4">
+                                <MdReport />
+                                <NavLink
+                                    href={route("reports.index")}
+                                    active={route().current("reports.index")}
+                                >
+                                    Laporan
                                 </NavLink>
                             </li>
                             <li className="flex items-center space-x-4">

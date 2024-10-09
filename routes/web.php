@@ -1,11 +1,14 @@
 <?php
 
 use App\Http\Controllers\AdminOrderController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductGroupController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\TableController;
 use Illuminate\Foundation\Application;
@@ -32,9 +35,9 @@ use Inertia\Inertia;
 //     ]);
 // });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return Inertia::render('Dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/', [OrderController::class, 'landing'])->name('orders.landing');
 Route::post('/', [OrderController::class, 'init'])->name('orders.init');
@@ -45,7 +48,10 @@ Route::get('/checkout', [OrderController::class, 'getCheckout'])->name('orders.c
 Route::get('/order-informations/{orderId}', [OrderController::class, 'getOrderDetail'])->name('orders.information');
 Route::get('/order-bills/{session_id}', [OrderController::class, 'getBill'])->name('orders.bill');
 
+
 Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -93,6 +99,8 @@ Route::middleware('auth')->group(function () {
         Route::post('/take/{id}', [AdminOrderController::class, 'takeOrder'])->name('take.orders');
         Route::post('/bayar/{id}', [AdminOrderController::class, 'paidOrder'])->name('paid.orders');
     });
+
+    Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
 });
 
 require __DIR__ . '/auth.php';

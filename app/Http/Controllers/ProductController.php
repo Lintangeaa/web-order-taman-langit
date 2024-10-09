@@ -15,7 +15,8 @@ class ProductController extends Controller
     public function getAll()
     {
         $products = Product::with(['category', 'group'])->get();
-        return Inertia::render('Admin/Products/Index', ['products' => $products]);
+        $categories = ProductCategory::all();
+        return Inertia::render('Admin/Products/Index', ['products' => $products, 'categories' => $categories]);
     }
 
     public function create()

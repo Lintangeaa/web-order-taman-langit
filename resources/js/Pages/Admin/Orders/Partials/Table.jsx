@@ -265,30 +265,100 @@ const TableOrders = ({ orders }) => {
 
 const ActionTableOrders = ({ item, setDetailModal, setSelectedItem }) => {
     const handleBayar = () => {
+        const totalAmount =
+            parseFloat(item.total_pbi) +
+            parseFloat(item.total_price) +
+            parseFloat(item.total_service);
+
         Swal.fire({
-            title: "Konfirmasi",
-            text: "Apakah Anda yakin akan menyelesaikan order ini?",
-            icon: "warning",
+            title: "Konfirmasi Pembayaran",
+            html: `
+                <div>
+                    <p>Total: Rp. ${totalAmount}</p>
+                    <input type="number" id="payment" placeholder="Masukkan jumlah pembayaran" class="swal2-input" />
+                    <div id="change" style="margin-top: 10px;"></div>
+                </div>
+            `,
             showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Ya, bayar!",
-            cancelButtonText: "Batal",
+            confirmButtonText: "Bayar",
+            cancelButtonText: "Tutup",
+            focusConfirm: false,
+            preConfirm: () => {
+                const paymentAmount = parseFloat(
+                    document.getElementById("payment").value
+                );
+                if (isNaN(paymentAmount) || paymentAmount <= 0) {
+                    Swal.showValidationMessage(
+                        "Silakan masukkan jumlah yang valid"
+                    );
+                    return false;
+                }
+                if (paymentAmount < totalAmount) {
+                    Swal.showValidationMessage(
+                        `Jumlah pembayaran harus lebih dari atau sama dengan Rp. ${totalAmount}`
+                    );
+                    return false;
+                }
+                return paymentAmount; // Return the valid amount
+            },
         }).then((result) => {
             if (result.isConfirmed) {
-                router.post("/admin-orders/bayar/" + item.id);
+                const paymentAmount = result.value;
+                const change = paymentAmount - totalAmount;
+
+                router
+                    .post("/admin-orders/bayar/" + item.id, {
+                        amount: paymentAmount,
+                    })
+                    .then((response) => {
+                        if (response.status === 200) {
+                            Swal.fire({
+                                title: "Pembayaran Berhasil",
+                                text: `Kembalian Anda: Rp. ${change}`,
+                                icon: "success",
+                            });
+                        } else {
+                            Swal.fire(
+                                "Error",
+                                "Gagal memproses pembayaran.",
+                                "error"
+                            );
+                        }
+                    })
+                    .catch((error) => {
+                        console.error(
+                            "Error during payment processing:",
+                            error
+                        );
+                        Swal.fire(
+                            "Error",
+                            "Gagal memproses pembayaran.",
+                            "error"
+                        );
+                    });
+            }
+        });
+
+        // Update change dynamically
+        const paymentInput = document.getElementById("payment");
+        paymentInput.addEventListener("input", function () {
+            const paymentAmount = parseFloat(this.value);
+            const changeDisplay = document.getElementById("change");
+            if (!isNaN(paymentAmount)) {
+                const change = paymentAmount - totalAmount;
+                changeDisplay.textContent = `Kembalian: Rp. ${change}`;
+            } else {
+                changeDisplay.textContent = "";
             }
         });
     };
 
     const handleDetail = () => {
-        console.log("test");
         setDetailModal(true);
         setSelectedItem(item);
     };
 
     const handleDownloadInvoice = async () => {
-        console.log(item.id);
         const response = await fetch(`/api/download-invoice/${item.id}`, {
             method: "GET",
             headers: {

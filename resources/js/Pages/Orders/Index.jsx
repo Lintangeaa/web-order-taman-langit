@@ -3,6 +3,9 @@ import { Head, Link } from "@inertiajs/react";
 import { useState, useEffect } from "react";
 import OrderComponent from "@/Components/OrderComponent";
 import Swal from "sweetalert2";
+import axios from "axios"; // Import axios for making requests
+import Modal from "@/Components/Modal";
+import FeedbackModal from "@/Components/FeedbackModal";
 
 const CreateOrderPage = ({ products, groups, query }) => {
     const noMeja = query.no_meja || "";
@@ -17,6 +20,7 @@ const CreateOrderPage = ({ products, groups, query }) => {
         return savedOrder ? JSON.parse(savedOrder) : [];
     });
     const [activeCategory, setActiveCategory] = useState(null);
+    const [isFeedback, setIsFeedback] = useState(false); // New state variable
 
     const handleActiveCategory = (category) => {
         setActiveCategory(category);
@@ -32,7 +36,32 @@ const CreateOrderPage = ({ products, groups, query }) => {
         localStorage.setItem("session_id", sessionId);
     }, [noMeja, orderId, sessionId]);
 
-    console.log("ss", sessionId);
+    useEffect(() => {
+        const feedbackSubmitted = localStorage.getItem("feedbackSubmitted");
+        if (feedbackSubmitted) {
+            console.log("sinisini");
+            setIsFeedback(false);
+        } else {
+            checkFeedbackStatus();
+        }
+    }, []);
+
+    const checkFeedbackStatus = async () => {
+        if (sessionId) {
+            try {
+                const response = await axios.get(
+                    `/api/orders/check-complete/${sessionId}`
+                );
+                console.log("sinisini2");
+                console.log(response.data.isFeedback);
+                setIsFeedback(response.data.isFeedback);
+            } catch (error) {
+                console.error("Error checking order status:", error);
+            }
+        }
+    };
+
+    console.log("feedback", isFeedback);
 
     const handleModal = (item) => {
         setSelectedItem(item);
@@ -90,7 +119,6 @@ const CreateOrderPage = ({ products, groups, query }) => {
           )
         : products;
 
-    console.log("products", products);
     return (
         <OrderLayout
             products={products}
@@ -167,6 +195,10 @@ const CreateOrderPage = ({ products, groups, query }) => {
                             </div>
                         ))}
                     </div>
+                    <FeedbackModal
+                        isFeedback={isFeedback}
+                        setIsFeedback={setIsFeedback}
+                    />
                     <OrderComponent
                         isModal={isModal}
                         setIsModal={setIsModal}

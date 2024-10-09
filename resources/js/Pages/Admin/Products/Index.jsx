@@ -3,8 +3,8 @@ import { Head, Link } from "@inertiajs/react";
 import { FiPlus } from "react-icons/fi";
 import TableProducts from "./Partials/Table";
 
-export default function GetAllProducts({ auth, products }) {
-    console.log('products',products);
+export default function GetAllProducts({ auth, products, categories }) {
+    console.log("products", products);
     return (
         <Authenticated
             user={auth.user}
@@ -26,7 +26,10 @@ export default function GetAllProducts({ auth, products }) {
                             <FiPlus size={20} />
                         </Link>
                     </div>
-                    <TableProducts products={products} />
+                    <TableProducts
+                        products={products}
+                        categories={categories}
+                    />
                 </div>
             </div>
         </Authenticated>

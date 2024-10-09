@@ -188,4 +188,13 @@ class OrderController extends Controller
             'orders' => $orders
         ]);
     }
+
+    public function checkCompleteOrder($sessionId)
+    {
+        $exists = Order::where('session_id', $sessionId)
+            ->where('status', 'Complete')
+            ->exists();
+
+        return response()->json(['isFeedback' => $exists]);
+    }
 }

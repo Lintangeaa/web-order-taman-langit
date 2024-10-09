@@ -3,20 +3,28 @@ import { Link, router, useForm } from "@inertiajs/react";
 import React, { useState } from "react";
 import { FiEdit, FiTrash } from "react-icons/fi";
 
-const TableProducts = ({ products }) => {
+const TableProducts = ({ products, categories }) => {
     const [searchTerm, setSearchTerm] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage, setItemsPerPage] = useState(10); // State for items per page
+    const [itemsPerPage, setItemsPerPage] = useState(10);
     const [sortOrder, setSortOrder] = useState("asc");
+    const [selectedCategory, setSelectedCategory] = useState(""); // State for selected category
 
-    const filteredProducts = products.filter(
-        (product) =>
+    // Filter products based on search term and selected category
+    const filteredProducts = products.filter((product) => {
+        const matchesSearch =
             product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
             product.category.name
                 .toLowerCase()
                 .includes(searchTerm.toLowerCase()) ||
-            product.group.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+            product.group.name.toLowerCase().includes(searchTerm.toLowerCase());
+
+        const matchesCategory =
+            selectedCategory === "" ||
+            product.category.name === selectedCategory;
+
+        return matchesSearch && matchesCategory;
+    });
 
     const sortedProducts = [...filteredProducts].sort((a, b) => {
         return sortOrder === "asc" ? a.price - b.price : b.price - a.price;
@@ -38,6 +46,21 @@ const TableProducts = ({ products }) => {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
             />
+
+            {/* Category filter dropdown */}
+            <select
+                className="p-2 border border-gray-300 rounded mb-4 w-44"
+                value={selectedCategory}
+                onChange={(e) => setSelectedCategory(e.target.value)}
+            >
+                <option value="">Semua Kategori</option>
+                {categories.map((category) => (
+                    <option key={category.id} value={category.name}>
+                        {category.name}
+                    </option>
+                ))}
+            </select>
+
             <select
                 className="p-2 border border-gray-300 rounded mb-4 w-44"
                 value={sortOrder}
@@ -135,7 +158,7 @@ const TableProducts = ({ products }) => {
                     value={itemsPerPage}
                     onChange={(e) => {
                         setItemsPerPage(Number(e.target.value));
-                        setCurrentPage(1); // Reset to the first page
+                        setCurrentPage(1);
                     }}
                 >
                     <option value={5}>5</option>
@@ -206,7 +229,7 @@ const ActionTableProduct = ({ item }) => {
     return (
         <div className="flex items-center gap-3">
             <Link
-                href={"/products/edit/" + item.id}
+                href={`/products/edit/${item.id}`}
                 className="p-2 bg-blue-500/10 text-blue-500 rounded-md"
             >
                 <FiEdit size={20} />

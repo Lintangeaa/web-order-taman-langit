@@ -66,7 +66,7 @@ const FormProduct = ({
                 </div>
 
                 <div>
-                    <InputLabel value="Stok" />
+                    <InputLabel value="Ketersediaan" />
                     <div className="flex mt-1">
                         <label className="mr-4">
                             <input

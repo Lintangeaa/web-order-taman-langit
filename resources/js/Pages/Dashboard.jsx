@@ -87,7 +87,7 @@ export default function Dashboard({
                                 <div className="text-white text-center flex flex-col justify-center items-center">
                                     <div>
                                         <h1 className="text-6xl font-semibold">
-                                            {feedbacks.length}
+                                            {feedbacks?.length ?? 0}
                                         </h1>
                                         <h1 className="text-xl font-semibold">
                                             Customer Feedback

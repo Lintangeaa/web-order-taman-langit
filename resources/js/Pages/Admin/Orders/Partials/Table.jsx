@@ -54,10 +54,14 @@ const TableTakeOrders = ({ orders }) => {
                                     {item.no_table}
                                 </td>
                                 <td className="py-3 px-6 text-center">
-                                    Rp.{" "}
-                                    {parseFloat(item.total_pbi) +
-                                        parseFloat(item.total_price) +
-                                        parseFloat(item.total_service)}
+                                    {new Intl.NumberFormat("id-ID", {
+                                        style: "currency",
+                                        currency: "IDR",
+                                    }).format(
+                                        parseFloat(item.total_pbi) +
+                                            parseFloat(item.total_price) +
+                                            parseFloat(item.total_service)
+                                    )}
                                 </td>
                                 <td className="py-3 px-6 text-center">
                                     <span
@@ -191,10 +195,14 @@ const TableOrders = ({ orders }) => {
                                     {item.no_table}
                                 </td>
                                 <td className="py-3 px-6 text-center">
-                                    Rp.{" "}
-                                    {parseFloat(item.total_pbi) +
-                                        parseFloat(item.total_price) +
-                                        parseFloat(item.total_service)}
+                                    {new Intl.NumberFormat("id-ID", {
+                                        style: "currency",
+                                        currency: "IDR",
+                                    }).format(
+                                        parseFloat(item.total_pbi) +
+                                            parseFloat(item.total_price) +
+                                            parseFloat(item.total_service)
+                                    )}
                                 </td>
                                 <td className="py-3 px-6 text-center">
                                     <span

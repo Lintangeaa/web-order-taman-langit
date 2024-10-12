@@ -2,7 +2,8 @@ import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import { Head, useForm } from "@inertiajs/react";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react"; // Import useState
+import FeedbackModal from "@/Components/FeedbackModal"; // Import FeedbackModal
 
 const Landing = ({ no_meja, setting }) => {
     const guest_name = localStorage.getItem("guest_name");
@@ -12,6 +13,8 @@ const Landing = ({ no_meja, setting }) => {
         no_meja: parseInt(no_meja),
         session_id: sessionId ? sessionId : "",
     });
+
+    const [isFeedback, setIsFeedback] = useState(false); // State for feedback modal
 
     useEffect(() => {
         if (guest_name) {
@@ -61,7 +64,7 @@ const Landing = ({ no_meja, setting }) => {
                             <InputError message={errors.guest_name} />
                         </div>
 
-                        <div className="flex items-center justify-center mt-16 gap-4">
+                        <div className="flex items-center justify-center mt-4 gap-4">
                             <button
                                 disabled={processing}
                                 className="bg-gold p-2 rounded-lg px-6 font-bold text-white"
@@ -78,6 +81,16 @@ const Landing = ({ no_meja, setting }) => {
                     </div>
                 )}
             </form>
+            <button
+                className="mt-16 bg-blue-500 p-2 rounded-lg font-bold text-white"
+                onClick={() => setIsFeedback(true)}
+            >
+                Berikan Umpan Balik
+            </button>
+            <FeedbackModal
+                isFeedback={isFeedback}
+                setIsFeedback={setIsFeedback}
+            />
         </div>
     );
 };

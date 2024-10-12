@@ -82,9 +82,7 @@ class OrderController extends Controller
 
     public function index(Request $request)
     {
-        $products = Product::with('category')
-        ->where('stock', true)
-        ->get();
+        $products = Product::with('category')->get();
         $groups = ProductGroup::all();
 
         return Inertia::render('Orders/Index', [

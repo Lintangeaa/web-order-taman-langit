@@ -173,11 +173,17 @@ const CreateOrderPage = ({ products, groups, query }) => {
                         {filteredProducts.map((item, index) => (
                             <div
                                 key={index}
-                                className="w-44 lg:w-64 p-3 flex flex-col justify-between items-center border-2 bg-primary rounded-xl mx-auto"
+                                className={`w-44 lg:w-64 p-3 flex flex-col justify-between items-center border-2 rounded-xl mx-auto ${
+                                    item.stock === 0
+                                        ? "bg-black/80"
+                                        : "bg-primary"
+                                }`}
                             >
                                 <img
                                     src={`/storage/${item.image}`}
-                                    className="w-32 h-32 lg:w-64 lg:h-64 rounded-3xl"
+                                    className={`w-32 h-32 lg:w-64 lg:h-64 rounded-3xl ${
+                                        !item.stock ? "filter grayscale" : ""
+                                    }`}
                                     alt={item.name}
                                 />
                                 <h1 className="text-white text-xs md:text-base mt-4">
@@ -188,6 +194,7 @@ const CreateOrderPage = ({ products, groups, query }) => {
                                     <button
                                         className="bg-white text-black rounded-lg px-2"
                                         onClick={() => handleModal(item)}
+                                        disabled={!item.stock}
                                     >
                                         add +
                                     </button>

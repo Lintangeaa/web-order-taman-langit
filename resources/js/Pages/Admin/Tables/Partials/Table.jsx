@@ -46,7 +46,7 @@ const TableMeja = ({ tables }) => {
                                     <QRCodeCanvas
                                         className="border-2 border-green-500 p-1 rounded cursor-pointer"
                                         size={50}
-                                        value={`http://103.175.221.170:4100?no_meja=${item.no}`}
+                                        value={`https://www.tamanlangit.my.id?no_meja=${item.no}`}
                                         onClick={() => handleQrClick(item.no)}
                                     />
                                 </div>
@@ -123,7 +123,7 @@ const QrModal = ({ isOpen, onClose, no }) => {
                 <QRCodeCanvas
                     ref={qrRef}
                     size={400}
-                    value={`http://103.175.221.170:4100?no_meja=${no}`}
+                    value={`https://www.tamanlangit.my.id?no_meja=${no}`}
                 />
                 <div className="flex justify-center">
                     <FiDownload

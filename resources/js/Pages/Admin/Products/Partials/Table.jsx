@@ -110,7 +110,10 @@ const TableProducts = ({ products, categories }) => {
                                 {item.description}
                             </td>
                             <td className="py-3 px-6 text-center">
-                                {item.price}
+                                {new Intl.NumberFormat("id-ID", {
+                                    style: "currency",
+                                    currency: "IDR",
+                                }).format(parseFloat(item.price))}
                             </td>
                             <td className="py-3 px-6 text-center whitespace-nowrap">
                                 {item.stock === 1 ? (

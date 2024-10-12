@@ -7,7 +7,7 @@ export default function GetAllOrders({ auth, orders, takeOrders }) {
     console.log(orders);
 
     const handleRefresh = () => {
-        window.location.reload(); // Reloads the current page
+        window.location.reload();
     };
 
     return (

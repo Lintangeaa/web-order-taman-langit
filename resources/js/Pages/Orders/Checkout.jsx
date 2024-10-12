@@ -146,9 +146,11 @@ const CheckoutPage = ({ recommended, products, setting }) => {
                 <div className="flex flex-col justify-center items-center w-1/3">
                     <div className="flex justify-center items-center space-x-1">
                         <FaCartPlus className="text-primary" />
-                        <h1 className="text-lg font-black">ORDER CART</h1>
+                        <h1 className="font-black">ORDER CART</h1>
                     </div>
-                    <p className="text-xs">Taman Langit Cafe Baturaden</p>
+                    <p className="text-[10px] md:text-sm text-center">
+                        Taman Langit Cafe Baturaden
+                    </p>
                 </div>
                 <div className="flex flex-col justify-center items-center w-1/3"></div>
             </header>

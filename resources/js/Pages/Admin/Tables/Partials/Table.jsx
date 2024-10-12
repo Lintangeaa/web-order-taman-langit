@@ -19,7 +19,6 @@ const TableMeja = ({ tables }) => {
                     <tr>
                         <th className="py-3 px-6">#</th>
                         <th className="py-3 px-6 text-center">Nomor</th>
-                        <th className="py-3 px-6 text-center">Status</th>
                         <th className="py-3 px-6 text-center">QR</th>
                         <th className="py-3 px-6 text-center">Aksi</th>
                     </tr>
@@ -42,17 +41,6 @@ const TableMeja = ({ tables }) => {
                         >
                             <td className="py-3 px-6">{index + 1}</td>
                             <td className="py-3 px-6 text-center">{item.no}</td>
-                            <td className="py-3 px-6 text-center">
-                                {item.status === 1 ? (
-                                    <span className="text-green-500">
-                                        Tersedia
-                                    </span>
-                                ) : (
-                                    <span className="text-red-500">
-                                        Tidak Tersedia
-                                    </span>
-                                )}
-                            </td>
                             <td className="py-3 px-6">
                                 <div className="flex justify-center items-center">
                                     <QRCodeCanvas

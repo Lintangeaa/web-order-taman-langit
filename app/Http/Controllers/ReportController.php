@@ -40,6 +40,7 @@ class ReportController extends Controller
             ->when($endDate, function ($query, $endDate) {
                 return $query->where('created_at', '<=', $endDate);
             })
+            ->where('total_price', '>', 0)
             ->orderBy('created_at', 'DESC')
             ->get();
 

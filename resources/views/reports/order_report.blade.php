@@ -69,7 +69,7 @@
                     <td>{{ $order->order_id }}</td>
                     <td>{{ $order->guest_name }}</td>
                     <td>{{ $order->status }}</td>
-                    <td>{{ number_format($order->total, 2) }}</td>
+                    <td>{{ number_format($order->total_price + $order->total_service + $order->total_pbi, 2) }}</td>
                     <td>{{ $order->created_at->format('Y-m-d H:i') }}</td>
                 </tr>
             @endforeach

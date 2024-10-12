@@ -22,6 +22,8 @@ const Landing = ({ no_meja, setting }) => {
 
     const submit = (e) => {
         e.preventDefault();
+        localStorage.setItem("no_meja", data.no_meja);
+        localStorage.setItem("session_id", data.session_id);
         localStorage.setItem("guest_name", data.guest_name);
         post(route("orders.init"));
     };

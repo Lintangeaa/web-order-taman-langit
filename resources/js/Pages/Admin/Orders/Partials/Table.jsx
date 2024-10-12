@@ -12,7 +12,7 @@ const TableTakeOrders = ({ orders }) => {
     return (
         <div>
             <span className="bg-white text-xl rounded-t-xl p-2 px-4 text-red-600">
-                Order Belum Diambil
+                Order Belum Diproses
             </span>
             <div className="overflow-x-scroll">
                 <table className="table-auto w-full text-sm text-left text-gray-700 rounded-lg overflow-hidden">

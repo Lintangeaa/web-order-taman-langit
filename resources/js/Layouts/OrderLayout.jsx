@@ -29,8 +29,8 @@ export default function OrderLayout({
                 );
                 timeoutId = setTimeout(() => {
                     console.log("Clearing local storage after 5 minutes...");
-                    localStorage.removeItem("guest_name");
-                    localStorage.removeItem("session_id");
+                    sessionStorage.removeItem("guest_name");
+                    sessionStorage.removeItem("session_id");
                 }, 300000);
             } else {
                 clearTimeout(timeoutId);
@@ -49,16 +49,16 @@ export default function OrderLayout({
         };
     }, []);
 
-    const session_id = localStorage.getItem("session_id");
-    const no_meja = localStorage.getItem("no_meja");
+    const session_id = sessionStorage.getItem("session_id");
+    const no_meja = sessionStorage.getItem("no_meja");
     const currentPath = window.location.pathname;
 
     if (!session_id && currentPath !== "/") {
-        localStorage.removeItem("session_id");
+        sessionStorage.removeItem("session_id");
         window.location.href = `/?no_meja=${no_meja}`;
     }
 
-    const guest_name = localStorage.getItem("guest_name");
+    const guest_name = sessionStorage.getItem("guest_name");
 
     const handleBill = () => {
         window.location.href = `/order-bills/${session_id}`;

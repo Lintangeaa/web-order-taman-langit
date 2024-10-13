@@ -16,35 +16,55 @@ const CreateOrderPage = ({ products, groups, query }) => {
     const [selectedItem, setSelectedItem] = useState(null);
     const [quantity, setQuantity] = useState(1);
     const [dataOrder, setDataOrder] = useState(() => {
-        const savedOrder = localStorage.getItem("dataOrder");
+        const savedOrder = sessionStorage.getItem("dataOrder");
         return savedOrder ? JSON.parse(savedOrder) : [];
     });
     const [activeCategory, setActiveCategory] = useState(null);
     const [isFeedback, setIsFeedback] = useState(false);
     const [searchQuery, setSearchQuery] = useState(""); // Declare searchQuery state
+    const [feedbackSubmitted, setFeedbackSubmitted] = useState(false); // State to track feedback submission
 
     const handleActiveCategory = (category) => {
         setActiveCategory(category);
     };
 
     useEffect(() => {
-        localStorage.setItem("dataOrder", JSON.stringify(dataOrder));
+        sessionStorage.setItem("dataOrder", JSON.stringify(dataOrder));
     }, [dataOrder]);
 
     useEffect(() => {
-        localStorage.setItem("no_meja", noMeja);
-        localStorage.setItem("order_id", orderId);
-        localStorage.setItem("session_id", sessionId);
+        sessionStorage.setItem("no_meja", noMeja);
+        sessionStorage.setItem("order_id", orderId);
+        sessionStorage.setItem("session_id", sessionId);
     }, [noMeja, orderId, sessionId]);
 
     useEffect(() => {
-        const feedbackSubmitted = localStorage.getItem("feedbackSubmitted");
         if (feedbackSubmitted) {
             setIsFeedback(false);
         } else {
             checkFeedbackStatus();
         }
     }, []);
+
+    const isCheckout = sessionStorage.getItem("isCheckout");
+
+    useEffect(() => {
+        let interval;
+
+        if (isCheckout) {
+            interval = setInterval(() => {
+                if (feedbackSubmitted) {
+                    clearInterval(interval); // Stop the interval if feedback is submitted
+                } else {
+                    checkFeedbackStatus();
+                }
+            }, 5000);
+        }
+
+        return () => {
+            clearInterval(interval);
+        };
+    }, [isCheckout, sessionId, feedbackSubmitted]);
 
     const checkFeedbackStatus = async () => {
         if (sessionId) {
@@ -53,6 +73,9 @@ const CreateOrderPage = ({ products, groups, query }) => {
                     `/api/orders/check-complete/${sessionId}`
                 );
                 setIsFeedback(response.data.isFeedback);
+                if (response.data.isFeedback) {
+                    setFeedbackSubmitted(true);
+                }
             } catch (error) {
                 console.error("Error checking order status:", error);
             }

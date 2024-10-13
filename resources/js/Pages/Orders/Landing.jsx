@@ -6,15 +6,15 @@ import React, { useEffect, useState } from "react"; // Import useState
 import FeedbackModal from "@/Components/FeedbackModal"; // Import FeedbackModal
 
 const Landing = ({ no_meja, setting }) => {
-    const guest_name = localStorage.getItem("guest_name");
-    const sessionId = localStorage.getItem("session_id");
+    const guest_name = sessionStorage.getItem("guest_name");
+    const sessionId = sessionStorage.getItem("session_id");
     const { data, setData, post, errors, processing } = useForm({
         guest_name: "",
         no_meja: parseInt(no_meja),
         session_id: sessionId ? sessionId : "",
     });
 
-    const [isFeedback, setIsFeedback] = useState(false); // State for feedback modal
+    const [isFeedback, setIsFeedback] = useState(false);
 
     useEffect(() => {
         if (guest_name) {
@@ -25,9 +25,9 @@ const Landing = ({ no_meja, setting }) => {
 
     const submit = (e) => {
         e.preventDefault();
-        localStorage.setItem("no_meja", data.no_meja);
-        localStorage.setItem("session_id", data.session_id);
-        localStorage.setItem("guest_name", data.guest_name);
+        sessionStorage.setItem("no_meja", data.no_meja);
+        sessionStorage.setItem("session_id", data.session_id);
+        sessionStorage.setItem("guest_name", data.guest_name);
         post(route("orders.init"));
     };
 

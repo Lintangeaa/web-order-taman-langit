@@ -16,6 +16,7 @@ class Order extends Model
         'guest_name',
         'total_price',
         'status',
+        'active',
         'no_table'
     ];
 

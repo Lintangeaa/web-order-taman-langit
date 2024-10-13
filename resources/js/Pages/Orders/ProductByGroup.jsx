@@ -8,14 +8,14 @@ const ProductByGroup = ({ products, categories, group, no_meja, order_id }) => {
     const [selectedItem, setSelectedItem] = useState(null);
     const [quantity, setQuantity] = useState(1);
     const [dataOrder, setDataOrder] = useState(() => {
-        const savedOrder = localStorage.getItem("dataOrder");
+        const savedOrder = sessionStorage.getItem("dataOrder");
         return savedOrder ? JSON.parse(savedOrder) : [];
     });
     const [activeCategory, setActiveCategory] = useState(null);
     const [searchQuery, setSearchQuery] = useState(""); // Declare searchQuery state
 
     useEffect(() => {
-        localStorage.setItem("dataOrder", JSON.stringify(dataOrder));
+        sessionStorage.setItem("dataOrder", JSON.stringify(dataOrder));
     }, [dataOrder]);
 
     const handleModal = (item) => {

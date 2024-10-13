@@ -33,7 +33,7 @@ const OrderInformationPage = ({ order, products }) => {
     }
 
     const order_time = formatDate(order.updated_at);
-    const no_meja = localStorage.getItem("no_meja");
+    const no_meja = sessionStorage.getItem("no_meja");
 
     return (
         <OrderLayout showbar={false} products={products}>

@@ -8,7 +8,6 @@ use App\Models\Product;
 use App\Models\Setting;
 use App\Models\Table;
 use Barryvdh\DomPDF\Facade\Pdf;
-use DB;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -19,12 +18,14 @@ class AdminOrderController extends Controller
     {
         $takeOrders = Order::with('orderDetails.product')
             ->where('status', 'Pending')
+            ->where('active', true)
             ->has('orderDetails')
             ->orderBy('updated_at', 'DESC')
             ->get();
 
         $orders = Order::with('orderDetails.product')
             ->where('status', '<>', 'Pending')
+            ->where('active', true)
             ->orderByRaw("CASE WHEN status = 'Complete' THEN 1 ELSE 0 END")
             ->orderBy('updated_at', 'DESC')
             ->get();
@@ -151,21 +152,12 @@ class AdminOrderController extends Controller
 
         // If no orders exist, return a success message
         if ($orderCount === 0) {
-            return response()->json(['success' => 'All orders have been cleared successfully.']);
+            return response()->json(['success' => 'No orders to update.']);
         }
 
-        // Disable foreign key checks
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        // Update all orders to set 'active' to false
+        Order::query()->update(['active' => false]);
 
-        // Delete related order_details
-        OrderDetail::query()->delete();
-
-        // Truncate orders table
-        Order::truncate();
-
-        // Re-enable foreign key checks
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-
-        return response()->json(['success' => 'All orders have been cleared successfully.']);
+        return response()->json(['success' => 'All orders have been marked as inactive successfully.']);
     }
 }

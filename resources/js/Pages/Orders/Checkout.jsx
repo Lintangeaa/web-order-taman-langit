@@ -9,7 +9,7 @@ import { IoCaretDownOutline, IoCaretUpOutline } from "react-icons/io5";
 
 const CheckoutPage = ({ recommended, products, setting }) => {
     const [dataOrder, setDataOrder] = useState(() => {
-        const savedOrder = localStorage.getItem("dataOrder");
+        const savedOrder = sessionStorage.getItem("dataOrder");
         return savedOrder ? JSON.parse(savedOrder) : [];
     });
     const [isModal, setIsModal] = useState(false);
@@ -100,9 +100,9 @@ const CheckoutPage = ({ recommended, products, setting }) => {
         }
     };
 
-    const order_id = localStorage.getItem("order_id");
-    const no_meja = localStorage.getItem("no_meja");
-    const session_id = localStorage.getItem("session_id");
+    const order_id = sessionStorage.getItem("order_id");
+    const no_meja = sessionStorage.getItem("no_meja");
+    const session_id = sessionStorage.getItem("session_id");
     console.log(no_meja);
 
     const confirmOrder = async () => {
@@ -130,7 +130,8 @@ const CheckoutPage = ({ recommended, products, setting }) => {
 
             const result = await response.json();
             console.log(result.message);
-            localStorage.removeItem("dataOrder");
+            sessionStorage.removeItem("dataOrder");
+            sessionStorage.setItem("isCheckout", true);
             setConfirmModal(false);
             window.location.href = `/order-informations/${order_id}`;
         } catch (error) {

@@ -21,7 +21,7 @@ const FeedbackModal = ({ isFeedback, setIsFeedback }) => {
                 title: "Feedback berhasil dikirim!",
                 text: response.data.message,
             });
-            localStorage.setItem("feedbackSubmitted", "true");
+            sessionStorage.setItem("feedbackSubmitted", "true");
             setIsFeedback(false);
             setContent("");
             setRating(0);

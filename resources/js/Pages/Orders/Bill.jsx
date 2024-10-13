@@ -23,11 +23,11 @@ const Bill = ({ orders }) => {
         return `${hours}:${minutes}:${seconds}`;
     }
 
-    const no_meja = localStorage.getItem("no_meja");
+    const no_meja = sessionStorage.getItem("no_meja");
 
     console.log("bill", orders);
-    const session_id = localStorage.getItem("session_id");
-    const order_id = localStorage.getItem("order_id");
+    const session_id = sessionStorage.getItem("session_id");
+    const order_id = sessionStorage.getItem("order_id");
 
     const redirectLink = `/orders?no_meja=${no_meja}&order_id=${order_id}&session_id=${session_id}`;
     return (

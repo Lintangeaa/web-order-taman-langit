@@ -190,7 +190,9 @@ export default function OrderLayout({
                         className="w-1/2 bg-white min-h-screen py-6"
                         onClick={(e) => e.stopPropagation()}
                     >
-                        <h1 className="px-4 text-2xl font-semibold">WELCOME</h1>
+                        <h1 className="px-4 text-2xl font-semibold mt-10">
+                            WELCOME
+                        </h1>
                         <div className="flex space-x-1 text-xl items-center px-4">
                             <CiUser /> <h1>{guest_name}</h1>
                         </div>

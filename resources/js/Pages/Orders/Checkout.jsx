@@ -181,7 +181,10 @@ const CheckoutPage = ({ recommended, products, setting }) => {
                                     </h1>
                                     <div className="flex justify-between w-full">
                                         <h1 className="text-xs font-black">
-                                            Rp. {item.price}
+                                            {new Intl.NumberFormat("id-ID", {
+                                                style: "currency",
+                                                currency: "IDR",
+                                            }).format(parseFloat(item.price))}
                                         </h1>
                                         <button
                                             className="bg-white text-black text-[10px] font-bold rounded-xl px-4"
@@ -283,7 +286,7 @@ const CheckoutPage = ({ recommended, products, setting }) => {
                             </h1>
                         </div>
                         <div className="flex justify-between items-center py-1">
-                            <h1 className="uppercase">PBI (10%)</h1>
+                            <h1 className="uppercase">PBI ({setting.tax}%)</h1>
                             <h1>
                                 {" "}
                                 {new Intl.NumberFormat("id-ID", {

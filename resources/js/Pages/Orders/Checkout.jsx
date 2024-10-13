@@ -1,7 +1,7 @@
 import Modal from "@/Components/Modal";
 import OrderComponent from "@/Components/OrderComponent";
 import PrimaryButton from "@/Components/PrimaryButton";
-import { Head } from "@inertiajs/react";
+import { Head, Link } from "@inertiajs/react";
 import React, { useState } from "react";
 import { BsArrowLeft } from "react-icons/bs";
 import { FaCartPlus } from "react-icons/fa6";
@@ -101,6 +101,9 @@ const CheckoutPage = ({ recommended, products, setting }) => {
     };
 
     const order_id = localStorage.getItem("order_id");
+    const no_meja = localStorage.getItem("no_meja");
+    const session_id = localStorage.getItem("session_id");
+    console.log(no_meja);
 
     const confirmOrder = async () => {
         try {

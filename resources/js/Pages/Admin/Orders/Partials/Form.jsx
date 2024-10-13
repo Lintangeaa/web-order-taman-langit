@@ -4,6 +4,7 @@ import InputLabel from "@/Components/InputLabel";
 import PrimaryButton from "@/Components/PrimaryButton";
 import TextInput from "@/Components/TextInput";
 import DropdownProduct from "@/Components/DropdownProduct";
+import { FiTrash } from "react-icons/fi";
 
 const FormOrder = ({
     data,
@@ -24,6 +25,11 @@ const FormOrder = ({
     const handleItemChange = (index, field, value) => {
         const newItems = [...items];
         newItems[index][field] = value;
+        setItems(newItems);
+    };
+
+    const handleDeleteItem = (index) => {
+        const newItems = items.filter((_, i) => i !== index);
         setItems(newItems);
     };
 
@@ -87,14 +93,15 @@ const FormOrder = ({
                 <table className="min-w-full">
                     <thead>
                         <tr>
-                            <th className="py-2">Product</th>
-                            <th className="py-2">Quantity</th>
+                            <th className="py-2 text-start">Product</th>
+                            <th className="py-2 text-start">Quantity</th>
+                            <th className="py-2">Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         {items.map((item, index) => (
                             <tr key={index} className="border-b">
-                                <td className="py-2">
+                                <td className="">
                                     <DropdownProduct
                                         options={availableProducts} // Use filtered products
                                         value={item.product_id}
@@ -108,7 +115,7 @@ const FormOrder = ({
                                         label="Select Product"
                                     />
                                 </td>
-                                <td className="py-2">
+                                <td className="">
                                     <TextInput
                                         type="number"
                                         value={item.quantity}
@@ -121,6 +128,15 @@ const FormOrder = ({
                                         }
                                         required
                                     />
+                                </td>
+                                <td className="flex justify-center items-center">
+                                    <button
+                                        type="button"
+                                        onClick={() => handleDeleteItem(index)}
+                                        className="text-red-500 hover:text-red-700"
+                                    >
+                                        <FiTrash className="text-2xl" />
+                                    </button>
                                 </td>
                             </tr>
                         ))}

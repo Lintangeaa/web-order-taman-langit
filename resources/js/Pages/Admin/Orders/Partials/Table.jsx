@@ -10,11 +10,29 @@ import { TbCashRegister } from "react-icons/tb";
 import OrderDetailModal from "@/Components/OrderDetailModal";
 
 const TableTakeOrders = ({ orders }) => {
+    const [searchTerm, setSearchTerm] = useState("");
+
+    const filteredOrders = orders.filter(
+        (order) =>
+            order.order_id.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            order.guest_name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
     return (
         <div>
-            <span className="bg-white text-xl rounded-t-xl p-2 px-4 text-red-600">
-                Order Belum Diproses
-            </span>
+            <div className="flex w-full justify-between">
+                <span className="bg-white text-xl rounded-t-xl p-2 px-4 text-red-600">
+                    Order Belum Diproses
+                </span>
+
+                <input
+                    type="text"
+                    placeholder="Search ..."
+                    className="p-2 border border-gray-300 rounded"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                />
+            </div>
             <div className="overflow-x-scroll">
                 <table className="table-auto w-full text-sm text-left text-gray-700 rounded-lg overflow-hidden">
                     <thead className="text-sm text-black uppercase bg-white">
@@ -39,51 +57,62 @@ const TableTakeOrders = ({ orders }) => {
                                 </td>
                             </tr>
                         )}
-                        {orders.map((item, index) => (
-                            <tr
-                                key={item.id}
-                                className="bg-white/80 text-black rounded-md"
-                            >
-                                <td className="py-3 px-6">{index + 1}</td>
-                                <td className="py-3 px-6 text-center">
-                                    {item.order_id}
-                                </td>
-                                <td className="py-3 px-6 text-center">
-                                    {item.guest_name}
-                                </td>
-                                <td className="py-3 px-6 text-center">
-                                    {item.no_table}
-                                </td>
-                                <td className="py-3 px-6 text-center">
-                                    {new Intl.NumberFormat("id-ID", {
-                                        style: "currency",
-                                        currency: "IDR",
-                                    }).format(
-                                        parseFloat(item.total_pbi) +
-                                            parseFloat(item.total_price) +
-                                            parseFloat(item.total_service)
-                                    )}
-                                </td>
-                                <td className="py-3 px-6 text-center">
-                                    <span
-                                        className={
-                                            item.status === "On Progress"
-                                                ? "text-blue-500"
-                                                : item.status === "Complete"
-                                                ? "text-green-500"
-                                                : item.status === "Pending"
-                                                ? "text-yellow-500"
-                                                : ""
-                                        }
-                                    >
-                                        {item.status}
-                                    </span>
-                                </td>
-                                <td className="py-3 px-6 flex justify-center items-center">
-                                    <ActionTakeOrder item={item} />
+                        {filteredOrders.length > 0 ? (
+                            orders.map((item, index) => (
+                                <tr
+                                    key={item.id}
+                                    className="bg-white/80 text-black rounded-md"
+                                >
+                                    <td className="py-3 px-6">{index + 1}</td>
+                                    <td className="py-3 px-6 text-center">
+                                        {item.order_id}
+                                    </td>
+                                    <td className="py-3 px-6 text-center">
+                                        {item.guest_name}
+                                    </td>
+                                    <td className="py-3 px-6 text-center">
+                                        {item.no_table}
+                                    </td>
+                                    <td className="py-3 px-6 text-center">
+                                        {new Intl.NumberFormat("id-ID", {
+                                            style: "currency",
+                                            currency: "IDR",
+                                        }).format(
+                                            parseFloat(item.total_pbi) +
+                                                parseFloat(item.total_price) +
+                                                parseFloat(item.total_service)
+                                        )}
+                                    </td>
+                                    <td className="py-3 px-6 text-center">
+                                        <span
+                                            className={
+                                                item.status === "On Progress"
+                                                    ? "text-blue-500"
+                                                    : item.status === "Complete"
+                                                    ? "text-green-500"
+                                                    : item.status === "Pending"
+                                                    ? "text-yellow-500"
+                                                    : ""
+                                            }
+                                        >
+                                            {item.status}
+                                        </span>
+                                    </td>
+                                    <td className="py-3 px-6 flex justify-center items-center">
+                                        <ActionTakeOrder item={item} />
+                                    </td>
+                                </tr>
+                            ))
+                        ) : (
+                            <tr className="bg-white/80">
+                                <td
+                                    colSpan={7}
+                                    className="py-3 px-6 text-center text-black"
+                                >
+                                    Order Tidak Ditemukan
                                 </td>
                             </tr>
-                        ))}
+                        )}
                     </tbody>
                 </table>
             </div>

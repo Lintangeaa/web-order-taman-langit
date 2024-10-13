@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Models\Setting;
 use App\Models\Table;
 use Barryvdh\DomPDF\Facade\Pdf;
+use DB;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -142,5 +143,29 @@ class AdminOrderController extends Controller
         $order->save();
 
         return redirect()->route('orders.all')->with('success', 'Order created successfully.');
+    }
+
+    public function clearAllOrders()
+    {
+        $orderCount = Order::count();
+
+        // If no orders exist, return a success message
+        if ($orderCount === 0) {
+            return response()->json(['success' => 'All orders have been cleared successfully.']);
+        }
+
+        // Disable foreign key checks
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+
+        // Delete related order_details
+        OrderDetail::query()->delete();
+
+        // Truncate orders table
+        Order::truncate();
+
+        // Re-enable foreign key checks
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+
+        return response()->json(['success' => 'All orders have been cleared successfully.']);
     }
 }

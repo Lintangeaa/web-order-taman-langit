@@ -197,7 +197,12 @@ const CreateOrderPage = ({ products, groups, query }) => {
                                     {item.name}
                                 </h1>
                                 <div className="mt-6 flex justify-between items-center text-xs text-white md:text-base w-full">
-                                    <p>Rp {item.price}</p>
+                                    <p>
+                                        {new Intl.NumberFormat("id-ID", {
+                                            style: "currency",
+                                            currency: "IDR",
+                                        }).format(parseFloat(item.price))}
+                                    </p>
                                     <button
                                         className="bg-white text-black rounded-lg px-2"
                                         onClick={() => handleModal(item)}

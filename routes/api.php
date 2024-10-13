@@ -26,6 +26,7 @@ Route::post("/feedback", [FeedbackController::class, 'store'])->name('feedback.s
 
 Route::post('/download-report', [ReportController::class, 'downloadReport'])->name('reports.download');
 
+Route::delete('/orders/clear', [AdminOrderController::class, 'clearAllOrders'])->name('orders.clear');
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

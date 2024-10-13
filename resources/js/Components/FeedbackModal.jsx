@@ -45,12 +45,12 @@ const FeedbackModal = ({ isFeedback, setIsFeedback }) => {
                     onClick={(e) => e.stopPropagation()}
                 >
                     <h2 className="text-lg font-bold mb-2">
-                        Berikan Umpan Balik Anda
+                        Berikan Feedback Anda
                     </h2>
                     <form onSubmit={handleSubmit}>
                         <div className="mb-4">
                             <label htmlFor="content" className="block mb-1">
-                                Umpan Balik:
+                                Pesan:
                             </label>
                             <textarea
                                 id="content"

@@ -135,13 +135,15 @@ const CheckoutPage = ({ recommended, products, setting }) => {
             console.error("Error confirming order:", error);
         }
     };
-
+    const redirectLink = `/orders?no_meja=${no_meja}&order_id=${order_id}&session_id=${session_id}`;
     return (
         <div className="bg-cream min-h-screen pb-10">
             <Head title={"Checkout"} />
             <header className="w-full h-16 bg-white shadow-lg flex items-center p-8">
                 <div className="w-1/3 flex items-center justify-start">
-                    <BsArrowLeft className="text-xl text-primary" />
+                    <Link href={redirectLink}>
+                        <BsArrowLeft className="text-xl text-primary" />
+                    </Link>
                 </div>
                 <div className="flex flex-col justify-center items-center w-1/3">
                     <div className="flex justify-center items-center space-x-1">

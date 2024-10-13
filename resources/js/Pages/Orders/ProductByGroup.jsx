@@ -12,6 +12,7 @@ const ProductByGroup = ({ products, categories, group, no_meja, order_id }) => {
         return savedOrder ? JSON.parse(savedOrder) : [];
     });
     const [activeCategory, setActiveCategory] = useState(null);
+    const [searchQuery, setSearchQuery] = useState(""); // Declare searchQuery state
 
     useEffect(() => {
         localStorage.setItem("dataOrder", JSON.stringify(dataOrder));
@@ -61,13 +62,23 @@ const ProductByGroup = ({ products, categories, group, no_meja, order_id }) => {
         setActiveCategory(category);
     };
 
-    const filteredProducts = activeCategory
-        ? products.filter((product) =>
-              product.category.name
+    const handleSearch = (query) => {
+        setSearchQuery(query);
+    };
+
+    const filteredProducts = products.filter((product) => {
+        const matchesCategory = activeCategory
+            ? product.category.name
                   .toLowerCase()
                   .includes(activeCategory.toLowerCase())
-          )
-        : products;
+            : true;
+
+        const matchesSearch = searchQuery
+            ? product.name.toLowerCase().includes(searchQuery.toLowerCase())
+            : true;
+
+        return matchesCategory && matchesSearch;
+    });
 
     return (
         <OrderLayout
@@ -75,13 +86,16 @@ const ProductByGroup = ({ products, categories, group, no_meja, order_id }) => {
             products={products}
             onCategoryChange={handleActiveCategory}
             activeCategory={activeCategory}
+            onSearch={handleSearch}
         >
             <Head title="Orders" />
             <div className="h-full bg-cream min-h-screen">
                 {group.name === "FOR YOU" || group.name === "NEW MENU" ? (
                     <div className={`p-4 grid grid-cols-1 gap-4`}>
-                        {products.length === 0 && <div>Tidak ada menu</div>}
-                        {products.map((item, index) => (
+                        {filteredProducts.length === 0 && (
+                            <div>Tidak ada menu</div>
+                        )}
+                        {filteredProducts.map((item, index) => (
                             <div
                                 key={index}
                                 className={`w-44 lg:w-64 p-3 flex flex-col justify-between items-center border-2 rounded-xl mx-auto ${

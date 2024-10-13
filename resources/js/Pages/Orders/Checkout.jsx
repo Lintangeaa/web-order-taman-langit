@@ -146,7 +146,7 @@ const CheckoutPage = ({ recommended, products, setting }) => {
                 <div className="flex flex-col justify-center items-center w-1/3">
                     <div className="flex justify-center items-center space-x-1">
                         <FaCartPlus className="text-primary" />
-                        <h1 className="font-black">ORDER CART</h1>
+                        <h1 className="font-black text-sm">ORDER CART</h1>
                     </div>
                     <p className="text-[10px] md:text-sm text-center">
                         Taman Langit Cafe Baturaden
@@ -202,7 +202,7 @@ const CheckoutPage = ({ recommended, products, setting }) => {
                             <h1 className="text-xs font-semibold text-black w-1/3">
                                 {dataorder.name}
                             </h1>
-                            <div className="w-1/3">
+                            <div className="w-1/3 flex justify-center">
                                 <div className="flex justify-between items-center bg-primary px-1 rounded-lg text-white w-min">
                                     <button
                                         className="px-2"
@@ -231,8 +231,11 @@ const CheckoutPage = ({ recommended, products, setting }) => {
                                     </button>
                                 </div>
                             </div>
-                            <h1 className="text-xs font-semibold text-black">
-                                Rp. {dataorder.price}
+                            <h1 className="text-xs font-semibold text-black w-1/3 text-end">
+                                {new Intl.NumberFormat("id-ID", {
+                                    style: "currency",
+                                    currency: "IDR",
+                                }).format(parseFloat(dataorder.price))}
                             </h1>
                         </div>
                     ))}
@@ -256,21 +259,44 @@ const CheckoutPage = ({ recommended, products, setting }) => {
                     <div className="flex flex-col text-xs font-semibold">
                         <div className="flex justify-between items-center py-1">
                             <h1 className="uppercase">Subtotal</h1>
-                            <h1>RP. {totalPrice},00</h1>
+                            <h1>
+                                {" "}
+                                {new Intl.NumberFormat("id-ID", {
+                                    style: "currency",
+                                    currency: "IDR",
+                                }).format(parseFloat(totalPrice))}
+                            </h1>
                         </div>
                         <div className="flex justify-between items-center py-1">
                             <h1 className="uppercase">Service Charge</h1>
-                            <h1>RP. {total_service},00</h1>
+                            <h1>
+                                {" "}
+                                {new Intl.NumberFormat("id-ID", {
+                                    style: "currency",
+                                    currency: "IDR",
+                                }).format(parseFloat(total_service))}
+                            </h1>
                         </div>
                         <div className="flex justify-between items-center py-1">
                             <h1 className="uppercase">PBI (10%)</h1>
-                            <h1>RP. {total_pbi},00</h1>
+                            <h1>
+                                {" "}
+                                {new Intl.NumberFormat("id-ID", {
+                                    style: "currency",
+                                    currency: "IDR",
+                                }).format(parseFloat(total_pbi))}
+                            </h1>
                         </div>
                     </div>
                 )}
                 <div className="flex justify-between items-center py-4 border-t border-gray-300">
                     <h1 className="uppercase font-bold">Total Payment</h1>
-                    <h1 className="font-bold">RP. {totalPayment},00</h1>
+                    <h1 className="font-bold">
+                        {new Intl.NumberFormat("id-ID", {
+                            style: "currency",
+                            currency: "IDR",
+                        }).format(parseFloat(totalPayment))}
+                    </h1>
                 </div>
             </div>
             <div className="p-6 flex justify-center">

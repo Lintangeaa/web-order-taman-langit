@@ -22,6 +22,14 @@ export default function GetAllOrders({ auth, orders, takeOrders }) {
             <Head title="Order" />
 
             <div className="py-12">
+                <div className="w-full flex justify-end sm:px-6 lg:px-8 mb-4">
+                    <Link
+                        className="p-2 rounded-full bg-white text-black text-sm "
+                        href="/admin-orders/create"
+                    >
+                        <FiPlus size={20} />
+                    </Link>
+                </div>
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-3">
                     <div className="flex justify-end">
                         <button

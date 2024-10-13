@@ -98,6 +98,8 @@ Route::middleware('auth')->group(function () {
         Route::get('', [AdminOrderController::class, 'index'])->name('orders.all');
         Route::post('/take/{id}', [AdminOrderController::class, 'takeOrder'])->name('take.orders');
         Route::post('/bayar/{id}', [AdminOrderController::class, 'paidOrder'])->name('paid.orders');
+        Route::get('/create', [AdminOrderController::class, 'create'])->name('admin.create.orders');
+        Route::post('/create', [AdminOrderController::class, 'store'])->name('admin.store.orders');
     });
 
     Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');

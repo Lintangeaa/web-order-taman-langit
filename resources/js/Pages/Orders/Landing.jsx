@@ -85,7 +85,7 @@ const Landing = ({ no_meja, setting }) => {
                 className="mt-16 bg-blue-500 p-2 rounded-lg font-bold text-white"
                 onClick={() => setIsFeedback(true)}
             >
-                Berikan Umpan Balik
+                Berikan Feedback
             </button>
             <FeedbackModal
                 isFeedback={isFeedback}

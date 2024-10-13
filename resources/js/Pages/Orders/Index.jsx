@@ -20,7 +20,8 @@ const CreateOrderPage = ({ products, groups, query }) => {
         return savedOrder ? JSON.parse(savedOrder) : [];
     });
     const [activeCategory, setActiveCategory] = useState(null);
-    const [isFeedback, setIsFeedback] = useState(false); // New state variable
+    const [isFeedback, setIsFeedback] = useState(false);
+    const [searchQuery, setSearchQuery] = useState(""); // Declare searchQuery state
 
     const handleActiveCategory = (category) => {
         setActiveCategory(category);
@@ -39,7 +40,6 @@ const CreateOrderPage = ({ products, groups, query }) => {
     useEffect(() => {
         const feedbackSubmitted = localStorage.getItem("feedbackSubmitted");
         if (feedbackSubmitted) {
-            console.log("sinisini");
             setIsFeedback(false);
         } else {
             checkFeedbackStatus();
@@ -52,16 +52,12 @@ const CreateOrderPage = ({ products, groups, query }) => {
                 const response = await axios.get(
                     `/api/orders/check-complete/${sessionId}`
                 );
-                console.log("sinisini2");
-                console.log(response.data.isFeedback);
                 setIsFeedback(response.data.isFeedback);
             } catch (error) {
                 console.error("Error checking order status:", error);
             }
         }
     };
-
-    console.log("feedback", isFeedback);
 
     const handleModal = (item) => {
         setSelectedItem(item);
@@ -111,18 +107,29 @@ const CreateOrderPage = ({ products, groups, query }) => {
         }
     };
 
-    const filteredProducts = activeCategory
-        ? products.filter((product) =>
-              product.category.name
+    const handleSearch = (query) => {
+        setSearchQuery(query);
+    };
+
+    const filteredProducts = products.filter((product) => {
+        const matchesCategory = activeCategory
+            ? product.category.name
                   .toLowerCase()
                   .includes(activeCategory.toLowerCase())
-          )
-        : products;
+            : true;
+
+        const matchesSearch = searchQuery
+            ? product.name.toLowerCase().includes(searchQuery.toLowerCase())
+            : true;
+
+        return matchesCategory && matchesSearch;
+    });
 
     return (
         <OrderLayout
             products={products}
             onCategoryChange={handleActiveCategory}
+            onSearch={handleSearch} // Pass the search handler
             activeCategory={activeCategory}
         >
             <Head title="Orders" />

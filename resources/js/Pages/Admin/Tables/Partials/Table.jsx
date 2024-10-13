@@ -20,7 +20,7 @@ const TableMeja = ({ tables }) => {
                         <th className="py-3 px-6">#</th>
                         <th className="py-3 px-6 text-center">Nomor</th>
                         <th className="py-3 px-6 text-center">QR</th>
-                        <th className="py-3 px-6 text-center">Aksi</th>
+                        {/* <th className="py-3 px-6 text-center">Aksi</th> */}
                     </tr>
                 </thead>
                 <tbody>
@@ -51,9 +51,9 @@ const TableMeja = ({ tables }) => {
                                     />
                                 </div>
                             </td>
-                            <td className="py-3 px-6 flex justify-center items-center">
+                            {/* <td className="py-3 px-6 flex justify-center items-center">
                                 <ActionsTableMeja item={item} />
-                            </td>
+                            </td> */}
                         </tr>
                     ))}
                 </tbody>

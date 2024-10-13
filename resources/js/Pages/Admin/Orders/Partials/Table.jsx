@@ -7,6 +7,7 @@ import { GiConfirmed } from "react-icons/gi";
 import Swal from "sweetalert2";
 import Modal from "@/Components/Modal";
 import { TbCashRegister } from "react-icons/tb";
+import OrderDetailModal from "@/Components/OrderDetailModal";
 
 const TableTakeOrders = ({ orders }) => {
     return (
@@ -127,8 +128,10 @@ const TableOrders = ({ orders }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10;
 
-    const filteredOrders = orders.filter((order) =>
-        order.order_id.toLowerCase().includes(searchTerm.toLowerCase())
+    const filteredOrders = orders.filter(
+        (order) =>
+            order.order_id.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            order.guest_name.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     const totalPages = Math.ceil(filteredOrders.length / itemsPerPage);
@@ -147,7 +150,7 @@ const TableOrders = ({ orders }) => {
                 </span>
                 <input
                     type="text"
-                    placeholder="Order ID"
+                    placeholder="Search ..."
                     className="p-2 border border-gray-300 rounded"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
@@ -256,17 +259,11 @@ const TableOrders = ({ orders }) => {
                     Next
                 </button>
             </div>
-
-            {detailModal && (
-                <Modal show={detailModal} onClose={() => setDetailModal(false)}>
-                    <div
-                        className="h-screen w-full bg-black/50 flex justify-center items-center px-64 py-40"
-                        onClick={() => setDetailModal(false)}
-                    >
-                        <div className="w-full h-full bg-white rounded-lg p-4"></div>
-                    </div>
-                </Modal>
-            )}
+            <OrderDetailModal
+                show={detailModal}
+                onClose={() => setDetailModal(false)}
+                order={selectedItem}
+            />
         </div>
     );
 };

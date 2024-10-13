@@ -60,7 +60,7 @@ export default function Dashboard({
                                 </div>
                                 <div>
                                     <h1 className="text-2xl text-black/50 font-semibold">
-                                        Total Order
+                                        Order Selesai
                                     </h1>
                                     <h2 className="text-3xl font-bold">
                                         {completeOrders}

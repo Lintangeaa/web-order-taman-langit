@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "@inertiajs/react";
+import { Head, Link } from "@inertiajs/react";
 import { FaBars } from "react-icons/fa6";
 import { AiOutlineSearch } from "react-icons/ai";
 import { HiOutlineClipboardDocumentList } from "react-icons/hi2";
@@ -13,8 +13,11 @@ export default function OrderLayout({
     products,
     onCategoryChange,
     activeCategory,
+    onSearch,
 }) {
     const [isSidebar, setIsSidebar] = useState(false);
+    const [searchQuery, setSearchQuery] = useState("");
+    const [isSearchVisible, setIsSearchVisible] = useState(false);
 
     useEffect(() => {
         let timeoutId;
@@ -49,19 +52,28 @@ export default function OrderLayout({
     const session_id = localStorage.getItem("session_id");
     const no_meja = localStorage.getItem("no_meja");
     const currentPath = window.location.pathname;
+
     if (!session_id && currentPath !== "/") {
         localStorage.removeItem("session_id");
         window.location.href = `/?no_meja=${no_meja}`;
     }
+
     const guest_name = localStorage.getItem("guest_name");
+
     const handleBill = () => {
         window.location.href = `/order-bills/${session_id}`;
     };
 
+    const handleSearchSubmit = (e) => {
+        e.preventDefault();
+        if (onSearch) {
+            onSearch(searchQuery);
+        }
+        setSearchQuery("");
+        setIsSearchVisible(false);
+    };
+
     const uniqueCategories = new Set();
-
-    console.log("products", products);
-
     const categories = products.reduce((acc, item) => {
         const { id, name, image } = item.category;
 
@@ -72,8 +84,6 @@ export default function OrderLayout({
 
         return acc;
     }, []);
-
-    console.log(activeCategory);
 
     return (
         <div className="min-h-screen flex flex-col sm:justify-center items-center sm:pt-0 bg-primary">
@@ -106,9 +116,29 @@ export default function OrderLayout({
                                 View Bill
                             </p>
                         </div>
-                        <AiOutlineSearch className="text-white text-4xl" />
+                        <AiOutlineSearch
+                            className="text-white text-4xl cursor-pointer"
+                            onClick={() => setIsSearchVisible(!isSearchVisible)}
+                        />
                     </div>
                 </div>
+                {isSearchVisible && (
+                    <form
+                        onSubmit={handleSearchSubmit}
+                        className="py-2 flex justify-center"
+                    >
+                        <input
+                            type="text"
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            placeholder="Search..."
+                            className="bg-white text-black rounded-md pl-2 pr-10 py-1"
+                        />
+                        <button type="submit" className="hidden">
+                            Search
+                        </button>
+                    </form>
+                )}
                 {path ? (
                     <div className="py-2">
                         <div className="h-6 bg-gold w-full mb-6 shadow-2xl">
@@ -122,7 +152,7 @@ export default function OrderLayout({
                                     categories.map((item, i) => (
                                         <div
                                             key={i}
-                                            className={`w-20  rounded-2xl flex-shrink-0  justify-center items-center`}
+                                            className={`w-20 rounded-2xl flex-shrink-0 justify-center items-center`}
                                             onClick={() =>
                                                 onCategoryChange(item.name)
                                             }
@@ -153,29 +183,29 @@ export default function OrderLayout({
             </header>
             <Modal show={isSidebar} onClose={() => setIsSidebar(false)}>
                 <div
-                    className="w-full h-screen bg-black/20 pe-10 pb-10"
+                    className="w-full min-h-screen"
                     onClick={() => setIsSidebar(false)}
                 >
                     <div
-                        className="w-full bg-white h-full py-2"
+                        className="w-1/2 bg-white min-h-screen py-6"
                         onClick={(e) => e.stopPropagation()}
                     >
-                        <h1 className="px-2 text-2xl font-semibold">WELCOME</h1>
-                        <div className="flex space-x-1 text-xl items-center px-2">
+                        <h1 className="px-4 text-2xl font-semibold">WELCOME</h1>
+                        <div className="flex space-x-1 text-xl items-center px-4">
                             <CiUser /> <h1>{guest_name}</h1>
                         </div>
                         <div className="border-t border-black/20 mt-6 mb-4" />
-                        <h1 className="px-2 text-xl font-bold mb-2 text-black/80">
+                        <h1 className="px-4 text-xl font-bold mb-2 text-black/80">
                             WELCOME
                         </h1>
-                        <h1 className="px-2 text-xl font-bold mb-2 text-black/80">
+                        <h1 className="px-4 text-xl font-bold mb-2 text-black/80">
                             {path}
                         </h1>
                         <div className="flex flex-col">
                             {categories.map((item, i) => (
                                 <div
                                     key={i}
-                                    className={`p-2 ${
+                                    className={`p-2 px-4 ${
                                         activeCategory === item.name
                                             ? "bg-moca"
                                             : ""

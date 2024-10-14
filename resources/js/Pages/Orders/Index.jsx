@@ -54,11 +54,11 @@ const CreateOrderPage = ({ products, groups, query }) => {
         if (isCheckout) {
             interval = setInterval(() => {
                 if (feedbackSubmitted) {
-                    clearInterval(interval); // Stop the interval if feedback is submitted
+                    clearInterval(interval);
                 } else {
                     checkFeedbackStatus();
                 }
-            }, 5000);
+            }, 2000);
         }
 
         return () => {

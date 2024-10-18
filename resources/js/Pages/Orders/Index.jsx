@@ -186,7 +186,7 @@ const CreateOrderPage = ({ products, groups, query }) => {
                             ))}
                     </div>
 
-                    <div className="hidden md:grid grid-cols-4 mt-4 mb-2 px-2">
+                    {/* <div className="hidden md:grid grid-cols-4 mt-4 mb-2 px-2">
                         {groups.map((group, index) => (
                             <Link
                                 key={index}
@@ -203,7 +203,7 @@ const CreateOrderPage = ({ products, groups, query }) => {
                                 />
                             </Link>
                         ))}
-                    </div>
+                    </div> */}
                 </div>
                 <div className="h-full bg-cream">
                     <div className="p-4 grid grid-cols-2 md:grid-cols-5 gap-4 pb-20">

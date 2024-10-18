@@ -158,24 +158,34 @@ const CreateOrderPage = ({ products, groups, query }) => {
             <Head title="Orders" />
             <div className="relative">
                 <div className="shadow-2xl">
-                    <div className="md:hidden h-[500px] border-2 border-gold grid grid-cols-2 grid-rows-2 md:grid-rows-4 md:grid-cols-4">
-                        {groups.map((group, index) => (
-                            <Link
-                                key={index}
-                                href={`/menus-by-group/${group.id}?no_meja=${noMeja}&order_id=${orderId}`}
-                                className="w-full flex flex-col justify-center items-center border-2 border-gold cursor-pointer"
-                            >
-                                <h1 className="text-center mb-1 text-lg italic font-extrabold text-white">
-                                    {group.name}
-                                </h1>
-                                <img
-                                    src={`/storage/${group.image}`}
-                                    alt={group.name}
-                                    className="w-44 h-36 rounded-lg"
-                                />
-                            </Link>
-                        ))}
+                    <div className="flex space-x-2 justify-center overflow-x-auto mt-8 px-4 pb-4 transition-all duration-300">
+                        {groups.length > 0 &&
+                            groups.map((item, i) => (
+                                <Link
+                                    key={i}
+                                    className={`w-20 rounded-2xl flex-shrink-0 justify-center items-center`}
+                                    href={`/menus-by-group/${item.id}?no_meja=${noMeja}&order_id=${orderId}`}
+                                >
+                                    <div className="flex flex-col justify-center items-center">
+                                        <p className="text-xs text-white text-center mb-1">
+                                            {item.name}
+                                        </p>
+                                        <img
+                                            src={`/storage/${item.image}`}
+                                            className="h-16 w-16 rounded-lg"
+                                        />
+                                        <div
+                                            className={`mt-4 h-2 w-16 rounded-lg ${
+                                                activeCategory === item.name
+                                                    ? "bg-gold"
+                                                    : "bg-primary"
+                                            }`}
+                                        ></div>
+                                    </div>
+                                </Link>
+                            ))}
                     </div>
+
                     <div className="hidden md:grid grid-cols-4 mt-4 mb-2 px-2">
                         {groups.map((group, index) => (
                             <Link

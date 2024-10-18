@@ -4,17 +4,18 @@ import { Head, Link, useForm } from "@inertiajs/react";
 import RedirectButton from "@/Components/RedirectButton";
 import FormGroup from "./Partials/Form";
 
-const UpdateGroupPage = ({ auth, category }) => {
+const UpdateGroupPage = ({ auth, group }) => {
+    console.log(group);
     const { data, setData, post, errors, processing, recentlySuccessful } =
         useForm({
-            name: category.name,
+            name: group.name,
             image: null,
-            previmage: category.image,
+            previmage: group.image,
         });
 
     const submit = (e) => {
         e.preventDefault();
-        post(route("groups.update", category.id));
+        post(route("groups.update", group.id));
     };
     return (
         <AuthenticatedLayout

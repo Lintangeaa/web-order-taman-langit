@@ -146,38 +146,36 @@ export default function OrderLayout({
                                 {path}
                             </h1>
                         </div>
-                        {path === "FOOD" || path === "BEVERAGE" ? (
-                            <div className="flex space-x-1 overflow-x-auto mt-4 px-4 pb-4 transition-all duration-300">
-                                {categories.length > 0 &&
-                                    categories.map((item, i) => (
-                                        <div
-                                            key={i}
-                                            className={`w-20 rounded-2xl flex-shrink-0 justify-center items-center`}
-                                            onClick={() =>
-                                                onCategoryChange(item.name)
-                                            }
-                                        >
-                                            <div className="flex flex-col justify-center items-center">
-                                                <p className="text-xs text-white text-center mb-1">
-                                                    {item.name}
-                                                </p>
-                                                <img
-                                                    src={`/storage/${item.image}`}
-                                                    className="h-16 w-16 rounded-lg"
-                                                />
-                                                <div
-                                                    className={`mt-4 h-2 w-16 rounded-lg ${
-                                                        activeCategory ===
-                                                        item.name
-                                                            ? "bg-gold"
-                                                            : "bg-primary"
-                                                    }`}
-                                                ></div>
-                                            </div>
+
+                        <div className="flex space-x-1 justify-center overflow-x-auto mt-4 px-4 pb-4 transition-all duration-300">
+                            {categories.length > 0 &&
+                                categories.map((item, i) => (
+                                    <div
+                                        key={i}
+                                        className={`w-20 rounded-2xl flex-shrink-0 justify-center items-center`}
+                                        onClick={() =>
+                                            onCategoryChange(item.name)
+                                        }
+                                    >
+                                        <div className="flex flex-col justify-center items-center">
+                                            <p className="text-xs text-white text-center mb-1">
+                                                {item.name}
+                                            </p>
+                                            <img
+                                                src={`/storage/${item.image}`}
+                                                className="h-16 w-16 rounded-lg"
+                                            />
+                                            <div
+                                                className={`mt-4 h-2 w-16 rounded-lg ${
+                                                    activeCategory === item.name
+                                                        ? "bg-gold"
+                                                        : "bg-primary"
+                                                }`}
+                                            ></div>
                                         </div>
-                                    ))}
-                            </div>
-                        ) : null}
+                                    </div>
+                                ))}
+                        </div>
                     </div>
                 ) : null}
             </header>

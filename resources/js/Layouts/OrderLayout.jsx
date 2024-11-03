@@ -152,27 +152,25 @@ export default function OrderLayout({
                                 categories.map((item, i) => (
                                     <div
                                         key={i}
-                                        className={`w-20 rounded-2xl flex-shrink-0 justify-center items-center`}
+                                        className={`flex-shrink-0 flex flex-col justify-center items-center`}
                                         onClick={() =>
                                             onCategoryChange(item.name)
                                         }
                                     >
-                                        <div className="flex flex-col justify-center items-center">
-                                            <p className="text-xs text-white text-center mb-1">
-                                                {item.name}
-                                            </p>
-                                            <img
-                                                src={`/storage/${item.image}`}
-                                                className="h-16 w-16 rounded-lg"
-                                            />
-                                            <div
-                                                className={`mt-4 h-2 w-16 rounded-lg ${
-                                                    activeCategory === item.name
-                                                        ? "bg-gold"
-                                                        : "bg-primary"
-                                                }`}
-                                            ></div>
-                                        </div>
+                                        <p className="text-xs text-white text-center mb-1">
+                                            {item.name}
+                                        </p>
+                                        <img
+                                            src={`/storage/${item.image}`}
+                                            className="h-16 w-16 rounded-lg"
+                                        />
+                                        <div
+                                            className={`mt-4 h-2 w-16 rounded-lg ${
+                                                activeCategory === item.name
+                                                    ? "bg-gold"
+                                                    : "bg-primary"
+                                            }`}
+                                        ></div>
                                     </div>
                                 ))}
                         </div>

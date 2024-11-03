@@ -18,14 +18,12 @@ export default function GetAllProducts({ auth, groups }) {
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-3">
                     <div className="w-full flex justify-end">
-                        {groups.length < 4 && (
-                            <Link
-                                className="p-2 rounded-full bg-white text-black text-sm "
-                                href="/products/groups/create"
-                            >
-                                <FiPlus size={20} />
-                            </Link>
-                        )}
+                        <Link
+                            className="p-2 rounded-full bg-white text-black text-sm "
+                            href="/products/groups/create"
+                        >
+                            <FiPlus size={20} />
+                        </Link>
                     </div>
                     <TableProductGroup groups={groups} />
                 </div>

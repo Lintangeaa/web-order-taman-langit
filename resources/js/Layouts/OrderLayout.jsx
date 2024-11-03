@@ -147,7 +147,7 @@ export default function OrderLayout({
                             </h1>
                         </div>
 
-                        <div className="flex space-x-1 justify-center overflow-x-auto mt-4 px-4 pb-4 transition-all duration-300">
+                        <div className="flex space-x-3 justify-center overflow-x-auto mt-4 px-4 pb-4 transition-all duration-300">
                             {categories.length > 0 &&
                                 categories.map((item, i) => (
                                     <div

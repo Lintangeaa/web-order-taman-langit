@@ -147,39 +147,35 @@ export default function OrderLayout({
                             </h1>
                         </div>
 
-                        <div className="flex space-x-3 justify-center overflow-x-auto mt-4 px-4 pb-4 transition-all duration-300">
+                        <div className="flex space-x-1 justify-center overflow-x-auto mt-4 px-4 pb-4 transition-all duration-300">
                             {categories.length > 0 &&
                                 categories.map((item, i) => (
                                     <div
                                         key={i}
-                                        className={`flex-shrink-0 flex flex-col justify-center items-center`}
+                                        className={`w-20 rounded-2xl flex-shrink-0 justify-center items-center`}
                                         onClick={() =>
                                             onCategoryChange(item.name)
                                         }
                                     >
-                                        <p
-                                            className="text-xs text-white text-center mb-1"
-                                            style={{ minHeight: "2rem" }}
-                                        >
-                                            {item.name}
-                                        </p>
-                                        <img
-                                            src={`/storage/${item.image}`}
-                                            className="h-16 w-16 rounded-lg"
-                                            style={{
-                                                height: "auto",
-                                                width: "auto",
-                                                maxHeight: "64px",
-                                                maxWidth: "64px",
-                                            }}
-                                        />
-                                        <div
-                                            className={`mt-4 h-2 w-16 rounded-lg ${
-                                                activeCategory === item.name
-                                                    ? "bg-gold"
-                                                    : "bg-primary"
-                                            }`}
-                                        ></div>
+                                        <div className="flex flex-col justify-center items-center text-center">
+                                            <p
+                                                className="text-xs text-white mb-1"
+                                                style={{ minHeight: "2.5rem" }}
+                                            >
+                                                {item.name}
+                                            </p>
+                                            <img
+                                                src={`/storage/${item.image}`}
+                                                className="h-16 w-16 rounded-lg"
+                                            />
+                                            <div
+                                                className={`mt-4 h-2 w-16 rounded-lg ${
+                                                    activeCategory === item.name
+                                                        ? "bg-gold"
+                                                        : "bg-primary"
+                                                }`}
+                                            ></div>
+                                        </div>
                                     </div>
                                 ))}
                         </div>

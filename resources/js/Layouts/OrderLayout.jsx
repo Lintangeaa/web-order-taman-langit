@@ -157,12 +157,21 @@ export default function OrderLayout({
                                             onCategoryChange(item.name)
                                         }
                                     >
-                                        <p className="text-xs text-white text-center mb-1">
+                                        <p
+                                            className="text-xs text-white text-center mb-1"
+                                            style={{ minHeight: "2rem" }}
+                                        >
                                             {item.name}
                                         </p>
                                         <img
                                             src={`/storage/${item.image}`}
                                             className="h-16 w-16 rounded-lg"
+                                            style={{
+                                                height: "auto",
+                                                width: "auto",
+                                                maxHeight: "64px",
+                                                maxWidth: "64px",
+                                            }}
                                         />
                                         <div
                                             className={`mt-4 h-2 w-16 rounded-lg ${

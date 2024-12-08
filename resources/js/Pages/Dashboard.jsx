@@ -4,6 +4,7 @@ import { FaBox } from "react-icons/fa";
 import { HiMail } from "react-icons/hi";
 import { GiCampCookingPot } from "react-icons/gi";
 import StarRating from "@/Components/StarRating";
+import { useEffect, useState } from "react";
 
 export default function Dashboard({
     auth,
@@ -13,8 +14,6 @@ export default function Dashboard({
     feedbacks,
     averageRating,
 }) {
-    console.log(feedbacks);
-
     function formatDate(isoDate) {
         const date = new Date(isoDate);
         const year = date.getFullYear();

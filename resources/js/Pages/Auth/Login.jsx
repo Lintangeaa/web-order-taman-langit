@@ -1,4 +1,5 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
+import { FaEye, FaEyeSlash } from "react-icons/fa"; // Importing eye icons
 import Checkbox from "@/Components/Checkbox";
 import GuestLayout from "@/Layouts/GuestLayout";
 import InputError from "@/Components/InputError";
@@ -6,6 +7,7 @@ import InputLabel from "@/Components/InputLabel";
 import PrimaryButton from "@/Components/PrimaryButton";
 import TextInput from "@/Components/TextInput";
 import { Head, Link, useForm } from "@inertiajs/react";
+import Swal from "sweetalert2";
 
 export default function Login({ status, canResetPassword }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -14,16 +16,27 @@ export default function Login({ status, canResetPassword }) {
         remember: false,
     });
 
+    const [passwordVisible, setPasswordVisible] = useState(false); // State to toggle password visibility
+
     useEffect(() => {
         return () => {
             reset("password");
         };
     }, []);
 
-    const submit = (e) => {
+    const submit = async (e) => {
         e.preventDefault();
 
-        post(route("login"));
+        post(route("login"), {
+            onError: () => {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Username atau password salah!",
+                    confirmButtonText: "Coba Lagi",
+                });
+            },
+        });
     };
 
     return (
@@ -54,18 +67,29 @@ export default function Login({ status, canResetPassword }) {
                     <InputError message={errors.email} className="mt-2" />
                 </div>
 
-                <div className="mt-4">
+                <div className="mt-4 relative">
                     <InputLabel htmlFor="password" value="Password" />
 
                     <TextInput
                         id="password"
-                        type="password"
+                        type={passwordVisible ? "text" : "password"} // Toggle password visibility
                         name="password"
                         value={data.password}
-                        className="mt-1 block w-full bg-cream"
+                        className="mt-1 block w-full bg-cream pr-10" // Added padding-right to make space for the icon
                         autoComplete="current-password"
                         onChange={(e) => setData("password", e.target.value)}
                     />
+
+                    <span
+                        onClick={() => setPasswordVisible(!passwordVisible)}
+                        className="absolute right-3 top-11 transform -translate-y-1/2 cursor-pointer"
+                    >
+                        {passwordVisible ? (
+                            <FaEyeSlash className="text-gray-600" />
+                        ) : (
+                            <FaEye className="text-gray-600" />
+                        )}
+                    </span>
 
                     <InputError message={errors.password} className="mt-2" />
                 </div>
@@ -79,9 +103,9 @@ export default function Login({ status, canResetPassword }) {
                                 setData("remember", e.target.checked)
                             }
                         />
-                        <span className="ms-2 text-sm text-gray-600">
+                        {/* <span className="ms-2 text-sm text-gray-600">
                             Remember me
-                        </span>
+                        </span> */}
                     </label>
                 </div>
 

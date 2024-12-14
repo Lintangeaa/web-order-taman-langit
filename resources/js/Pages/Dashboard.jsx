@@ -4,10 +4,10 @@ import { FaBox } from "react-icons/fa";
 import { HiMail } from "react-icons/hi";
 import { GiCampCookingPot } from "react-icons/gi";
 import StarRating from "@/Components/StarRating";
-import { useEffect, useState } from "react";
 
 export default function Dashboard({
     auth,
+    totalOrders,
     pendingOrders,
     onProgressOrders,
     completeOrders,
@@ -22,6 +22,7 @@ export default function Dashboard({
 
         return `${year}-${month}-${day}`;
     }
+    console.log(totalOrders, onProgressOrders, completeOrders);
 
     return (
         <AuthenticatedLayout
@@ -47,9 +48,7 @@ export default function Dashboard({
                                         Total Order
                                     </h1>
                                     <h2 className="text-3xl font-bold">
-                                        {pendingOrders +
-                                            onProgressOrders +
-                                            completeOrders}
+                                        {totalOrders}
                                     </h2>
                                 </div>
                             </div>
@@ -66,7 +65,7 @@ export default function Dashboard({
                                     </h2>
                                 </div>
                             </div>
-                            <div className="w-full h-40 bg-white p-4 flex items-center space-x-4">
+                            {/* <div className="w-full h-40 bg-white p-4 flex items-center space-x-4">
                                 <div className="flex justify-center items-center bg-orange-400 w-40 h-full rounded">
                                     <GiCampCookingPot className="text-5xl text-white" />
                                 </div>
@@ -78,7 +77,7 @@ export default function Dashboard({
                                         {onProgressOrders}
                                     </h2>
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
 
                         <div className="w-full h-auto bg-white p-4  mt-10">

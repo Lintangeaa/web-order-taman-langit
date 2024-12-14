@@ -17,11 +17,15 @@ class DashboardController extends Controller
             ->get()
             ->groupBy('status');
 
+        $totalOrders = Order::count();
+
         // Count the orders for each status
         $pendingOrders = $orders->get('Pending', collect())->count();
         $onProgressOrders = $orders->get('On Progress', collect())->count();
-        $completeOrders = $orders->get('Complete', collect())->count();
-
+        $completeOrders = Order::with('orderDetails.product')
+            ->where('status', 'Complete')
+            ->where('active', 1)
+            ->count();
         // Fetch all feedbacks
         $feedbacks = Feedback::all();
 
@@ -30,6 +34,7 @@ class DashboardController extends Controller
         $averageRating = $feedbacks->isNotEmpty() ? $totalRating / $feedbacks->count() : 0;
 
         return Inertia::render('Dashboard', [
+            'totalOrders' => $totalOrders,
             'pendingOrders' => $pendingOrders,
             'onProgressOrders' => $onProgressOrders,
             'completeOrders' => $completeOrders,
